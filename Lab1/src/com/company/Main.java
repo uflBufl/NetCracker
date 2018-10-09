@@ -1,9 +1,66 @@
 package com.company;
 
+import com.company.buildings.Office;
+import com.company.buildings.OfficeBuilding;
+import com.company.buildings.OfficeFloor;
+
 public class Main {
 
     public static void main(String[] args) {
 
+        OfficeFloor[] officeFloor = new OfficeFloor[3];
+        for(int i = 0;i<3;i++)
+        {
+            Office[] offices = new Office[3];
+            for(int j = 0;j<3;j++){
+                offices[j] = new Office(5*j,i);
+            }
+            officeFloor[i] = new OfficeFloor(offices);
+        }
+        OfficeBuilding building = new OfficeBuilding(officeFloor);
+
+        Office office123 = new Office();
+
+        System.out.println(office123.getSquare());
+
+        building.newOfficeByNum(3,office123);
+
+        for(int i = 0;i<building.getNumFloors();i++){
+            OfficeFloor of = building.getFloorByNum(i);
+            for(int j = 0;j<of.getNumOffices();j++){
+                Office office = of.getOffice(j);
+                System.out.println(i+ " этаж "+j+" Квартира");
+                System.out.println(office.getSquare());
+                System.out.println(office.getRooms());
+                System.out.println();
+            }
+        }
+
+        building.deleteOfficeByNum(3);
+
+        for(int i = 0;i<building.getNumFloors();i++){
+            OfficeFloor of = building.getFloorByNum(i);
+            for(int j = 0;j<of.getNumOffices();j++){
+                Office office = of.getOffice(j);
+                System.out.println(i+ " этаж "+j+" Квартира");
+                System.out.println(office.getSquare());
+                System.out.println(office.getRooms());
+                System.out.println();
+            }
+        }
+
+        Office[] offices = building.getSortOffices();
+
+        for(int i = 0;i<offices.length;i++){
+            System.out.println(offices[i].getSquare());
+            System.out.println(offices[i].getRooms());
+
+        }
+
+        Office of = new Office(-123,-45);
+
+
+/*
         DwellingFloor[] dwellingFloor = new DwellingFloor[3];
         for(int i = 0;i<3;i++)
         {
@@ -52,6 +109,15 @@ public class Main {
             System.out.println(flats[i].getRooms());
 
         }
+
+*/
+
+
+
+
+
+
+
 
 
 
