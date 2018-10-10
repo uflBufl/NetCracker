@@ -3,6 +3,7 @@ package com.company.buildings;
 import com.company.exceptions.InvalidRoomsCountException;
 import com.company.exceptions.InvalidSpaceAreaException;
 
+//todo аналогично Flat
 public class Office {
     private double square;
     private int rooms;

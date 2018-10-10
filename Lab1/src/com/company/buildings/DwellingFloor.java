@@ -16,11 +16,12 @@ public class DwellingFloor {
         this.flats = flats;
 
     }
-
+    //todo size()
     public int getNumFlats(){
         return flats.length;
     }
 
+    //todo squareTotal()
     public double getSquareFloor(){
         double square = 0;
         for(int i =0;i<flats.length;i++){
@@ -30,7 +31,7 @@ public class DwellingFloor {
         }
         return square;
     }
-
+    //todo roomsCountTotal()
     public int getNumRooms(){
         int rooms = 0;
         for(int i =0;i<flats.length;i++){
@@ -40,7 +41,7 @@ public class DwellingFloor {
         }
         return rooms;
     }
-
+    //todo лучше копию массива возвращать
     public Flat[] getFlats(){
         return flats;
     }
@@ -49,10 +50,12 @@ public class DwellingFloor {
         return flats[num];
     }
 
+    //todo setFlat()
     public void editFlat(int num, Flat flat){
         flats[num] = flat;
     }
 
+    //todo addFlat()
     public void newFlat(int num, Flat flat){
         Flat newFlats[] = new Flat[this.flats.length+1];
         for(int i = 0;i<num;i++){
@@ -71,6 +74,7 @@ public class DwellingFloor {
 
         this.flats = newFlats;
     }
+
 
     public void deleteFlat(int num){
         Flat newFlats[] = new Flat[this.flats.length-1];
@@ -98,6 +102,7 @@ public class DwellingFloor {
         return flat;
     }
 
+    //todo getBestSpaceNumber()
     public int getBestSpaceHelp(){
         Flat flat = new Flat(0);
         int numFlat = 0;

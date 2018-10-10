@@ -5,8 +5,9 @@ import com.company.exceptions.InvalidSpaceAreaException;
 
 public class Flat {
     private double square;
-    private int rooms;
+    private int rooms; //todo roomsQuantity или roomsCount
 
+    //todo литералы в коде - плохой вариант. Вынеси их в константы класса
     public Flat(){
         this(50);
     }

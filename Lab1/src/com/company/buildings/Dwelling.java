@@ -63,6 +63,7 @@ public class Dwelling {
         this.dwellingFloor[numFloor] = dwellingFloor;
     }
 
+    //todo в последующих 4-х методах происходит нещадное дублирование кода. Вынеси этот код в отдельный приватный метод и вызывай его
     public Flat getFlatByNum(int numFlat){
         if(numFlat < 0 || numFlat>getNumFlats()){
             throw new SpaceIndexOutOfBoundsException();
@@ -126,6 +127,7 @@ public class Dwelling {
     public Flat getBestSpace(){
         double maxSquare = 0;
         Flat flat = new Flat(0);
+        //todo чтобы несколько раз не вызывать метод dwellingFloor[i].getBestSpace() - лучше запомни результат его выполнения в переменную и используй ее
         for(int i = 0;i<dwellingFloor.length;i++){
             if(dwellingFloor[i].getBestSpace().getSquare()>maxSquare){
                 maxSquare = dwellingFloor[i].getBestSpace().getSquare();
