@@ -1,6 +1,5 @@
-package com.company;
+package com.company.interfaces;
 
-import com.company.buildings.Flat;
 import com.company.exceptions.SpaceIndexOutOfBoundsException;
 
 public interface Floor {

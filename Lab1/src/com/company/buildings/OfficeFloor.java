@@ -1,7 +1,7 @@
 package com.company.buildings;
 
-import com.company.Floor;
-import com.company.Space;
+import com.company.interfaces.Floor;
+import com.company.interfaces.Space;
 import com.company.exceptions.SpaceIndexOutOfBoundsException;
 
 class OfficeListElement{
@@ -94,7 +94,7 @@ public class OfficeFloor implements Floor {
             addOfficeListElement(i,sup);
         }
     }
-
+    @Override
     public int size(){
         int num = 0;
         if(head == null){
@@ -110,7 +110,7 @@ public class OfficeFloor implements Floor {
         }
         return num;
     }
-    //todo squareTotal()
+    @Override
     public double squareTotal(){
         double square = 0;
         if(head != null) {
@@ -122,7 +122,7 @@ public class OfficeFloor implements Floor {
         }
         return square;
     }
-    //todo roomsCountTotal()
+    @Override
     public int roomsCountTotal(){
         int rooms = 0;
         if(head != null) {
@@ -134,7 +134,7 @@ public class OfficeFloor implements Floor {
         }
         return rooms;
     }
-
+    @Override
     public Space[] getSpaces(){
         int num = size();
         if(num != 0) {
@@ -150,7 +150,7 @@ public class OfficeFloor implements Floor {
             return new Space[0];
         }
     }
-
+    @Override
     public Space getSpace(int num){
 
         if(num < 0 || num> size()){
@@ -160,7 +160,7 @@ public class OfficeFloor implements Floor {
         OfficeListElement sup = getListElement(num);
         return sup.data;
     }
-    //todo setFlat()
+    @Override
     public void setSpace(int num, Space office){
         if(num < 0 || num> size()){
             throw new SpaceIndexOutOfBoundsException();
@@ -169,7 +169,7 @@ public class OfficeFloor implements Floor {
         deleteOfficeListElement(num);
         addOfficeListElement(num, newOffice);
     }
-    //todo addFlat()
+    @Override
     public void addSpace(int num, Space office){
         if(num < 0 || num> size()+1){
             throw new SpaceIndexOutOfBoundsException();
@@ -177,14 +177,14 @@ public class OfficeFloor implements Floor {
         OfficeListElement newOffice = new OfficeListElement(office);
         addOfficeListElement(num, newOffice);
     }
-
+    @Override
     public void deleteSpace(int num){
         if(num < 0 || num> size()){
             throw new SpaceIndexOutOfBoundsException();
         }
         deleteOfficeListElement(num);
     }
-
+    @Override
     public Space getBestSpace(){
         Space office = new Office(0);
 

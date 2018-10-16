@@ -1,8 +1,8 @@
 package com.company.buildings;
 
-import com.company.Building;
-import com.company.Floor;
-import com.company.Space;
+import com.company.interfaces.Building;
+import com.company.interfaces.Floor;
+import com.company.interfaces.Space;
 import com.company.exceptions.FloorIndexOutOfBoundsException;
 import com.company.exceptions.SpaceIndexOutOfBoundsException;
 
@@ -93,7 +93,7 @@ public class OfficeBuilding implements Building{
             addOfficeListElement(i,sup);
         }
     }
-
+    @Override
     public int getNumFloors(){
         int num = 0;
         if(head == null){
@@ -107,7 +107,7 @@ public class OfficeBuilding implements Building{
         }
         return num;
     }
-
+    @Override
     public int size(){
         int numFloors = getNumFloors();
         int numOffices = 0;
@@ -117,7 +117,7 @@ public class OfficeBuilding implements Building{
         }
         return numOffices;
     }
-
+    @Override
     public double squareTotal(){
         int numFloors = getNumFloors();
         double square = 0;
@@ -127,7 +127,7 @@ public class OfficeBuilding implements Building{
         }
         return square;
     }
-
+    @Override
     public int roomsCountTotal(){
         int numFloors = getNumFloors();
         int numRooms = 0;
@@ -137,7 +137,7 @@ public class OfficeBuilding implements Building{
         }
         return numRooms;
     }
-
+    @Override
     public Floor[] getFloors(){
         int numFloors = getNumFloors();
         Floor floors[] = new OfficeFloor[numFloors];
@@ -148,7 +148,7 @@ public class OfficeBuilding implements Building{
         }
         return floors;
     }
-
+    @Override
     public Floor getFloorByNum(int numFloor){
         if(numFloor < 0 || numFloor>getNumFloors()){
             throw new FloorIndexOutOfBoundsException();
@@ -156,7 +156,7 @@ public class OfficeBuilding implements Building{
         FloorListElement sup = getListElement(numFloor);
         return sup.data;
     }
-
+    @Override
     public void setFloor(int numFloor, Floor officeFloor){
         if(numFloor < 0|| numFloor>getNumFloors()){
             throw new FloorIndexOutOfBoundsException();
@@ -164,7 +164,7 @@ public class OfficeBuilding implements Building{
         FloorListElement sup = getListElement(numFloor);
         sup.data = officeFloor;
     }
-
+    @Override
     public Space getSpaceByNum(int numOffice){
         if(numOffice <= 0 || numOffice> size()){
             throw new SpaceIndexOutOfBoundsException();
@@ -183,7 +183,7 @@ public class OfficeBuilding implements Building{
 
         return sup.data.getSpace(numOffice1);
     }
-
+    @Override
     public void setSpaceByNum(int numOffice, Space office){
         if(numOffice <= 0 || numOffice> size()){
             throw new SpaceIndexOutOfBoundsException();
@@ -201,7 +201,7 @@ public class OfficeBuilding implements Building{
 
         sup.data.setSpace(numOffice1,office);
     }
-
+    @Override
     public void addSpaceByNum(int numOffice, Space office){
         if(numOffice <= 0 || numOffice> size()+1){
             throw new SpaceIndexOutOfBoundsException();
@@ -219,7 +219,7 @@ public class OfficeBuilding implements Building{
 
         sup.data.addSpace(numOffice1,office);
     }
-
+    @Override
     public void deleteSpaceByNum(int numOffice){
         if(numOffice <= 0 || numOffice> size()){
             throw new SpaceIndexOutOfBoundsException();
@@ -237,7 +237,7 @@ public class OfficeBuilding implements Building{
 
         sup.data.deleteSpace(numOffice1);
     }
-
+    @Override
     public Space getBestSpace(){
         double maxSquare = 0;
         Space office = new Office(0);
@@ -255,7 +255,7 @@ public class OfficeBuilding implements Building{
         return office;
     }
 
-
+    @Override
     public Space[] getSortSpaces(){
         Space[] offices = new Space[size()];
         int num=0;

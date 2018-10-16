@@ -1,6 +1,6 @@
 package com.company.buildings;
 
-import com.company.Space;
+import com.company.interfaces.Space;
 import com.company.exceptions.InvalidRoomsCountException;
 import com.company.exceptions.InvalidSpaceAreaException;
 

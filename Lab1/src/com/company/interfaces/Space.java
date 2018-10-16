@@ -1,4 +1,4 @@
-package com.company;
+package com.company.interfaces;
 
 import com.company.exceptions.InvalidRoomsCountException;
 import com.company.exceptions.InvalidSpaceAreaException;

@@ -1,8 +1,7 @@
 package com.company.buildings;
 
-import com.company.Floor;
-import com.company.Space;
-import com.company.buildings.Flat;
+import com.company.interfaces.Floor;
+import com.company.interfaces.Space;
 import com.company.exceptions.SpaceIndexOutOfBoundsException;
 
 public class DwellingFloor implements Floor {
@@ -28,13 +27,13 @@ public class DwellingFloor implements Floor {
 
     }
 
-    //todo size()
+    @Override
     public int size() {
         //return spaces.length;
         return size;
     }
 
-    //todo squareTotal()
+    @Override
     public double squareTotal() {
         double square = 0;
         for (int i = 0; i < size; i++) {
@@ -43,7 +42,7 @@ public class DwellingFloor implements Floor {
         return square;
     }
 
-    //todo roomsCountTotal()
+    @Override
     public int roomsCountTotal() {
         int rooms = 0;
         for (int i = 0; i < size; i++) {
@@ -52,12 +51,12 @@ public class DwellingFloor implements Floor {
         return rooms;
     }
 
-    //todo лучше копию массива возвращать
+    @Override
     public Space[] getSpaces() {
         Space[] sup = spaces;
         return sup;
     }
-
+    @Override
     public Space getSpace(int num) {
         if(num < 0 || num> size()){
             throw new SpaceIndexOutOfBoundsException();
@@ -65,7 +64,7 @@ public class DwellingFloor implements Floor {
         return spaces[num];
     }
 
-    //todo setSpace()
+    @Override
     public void setSpace(int num, Space space) {
         if(num < 0 || num> size()){
             throw new SpaceIndexOutOfBoundsException();
@@ -73,7 +72,7 @@ public class DwellingFloor implements Floor {
         spaces[num] = space;
     }
 
-    //todo addSpace()
+    @Override
     public void addSpace(int num, Space space) {
         if(num < 0 || num> size()+1){
             throw new SpaceIndexOutOfBoundsException();
@@ -94,7 +93,7 @@ public class DwellingFloor implements Floor {
     }
 
 
-    //todo сделать проверку на выход за границу Америки
+    @Override
     public void deleteSpace(int num) {
         if(num < 0 || num> size()){
             throw new SpaceIndexOutOfBoundsException();
@@ -110,7 +109,7 @@ public class DwellingFloor implements Floor {
 
         this.spaces = newSpaces;
     }
-
+    @Override
     public Space getBestSpace() {
         Space space = new Flat(0);
         for (int i = 0; i < this.spaces.length; i++) {

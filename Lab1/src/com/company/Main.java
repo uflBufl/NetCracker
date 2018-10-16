@@ -1,6 +1,9 @@
 package com.company;
 
 import com.company.buildings.*;
+import com.company.interfaces.Building;
+import com.company.interfaces.Floor;
+import com.company.interfaces.Space;
 
 public class Main {
 

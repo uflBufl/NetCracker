@@ -1,8 +1,8 @@
 package com.company.buildings;
 
-import com.company.Building;
-import com.company.Floor;
-import com.company.Space;
+import com.company.interfaces.Building;
+import com.company.interfaces.Floor;
+import com.company.interfaces.Space;
 import com.company.exceptions.FloorIndexOutOfBoundsException;
 import com.company.exceptions.SpaceIndexOutOfBoundsException;
 
@@ -27,12 +27,12 @@ public class Dwelling implements Building{
             }
         }
     }
-
+    @Override
     public int getNumFloors() {
         //return dwellingFloor.length;
         return size;
     }
-
+    @Override
     public int size() {
         int numFlats = 0;
         for (int i = 0; i < size; i++) {
@@ -40,7 +40,7 @@ public class Dwelling implements Building{
         }
         return numFlats;
     }
-
+    @Override
     public double squareTotal() {
         double square = 0;
         for (int i = 0; i < size; i++) {
@@ -48,7 +48,7 @@ public class Dwelling implements Building{
         }
         return square;
     }
-
+    @Override
     public int roomsCountTotal() {
         int numRooms = 0;
         for (int i = 0; i < size; i++) {
@@ -56,19 +56,19 @@ public class Dwelling implements Building{
         }
         return numRooms;
     }
-
+    @Override
     public Floor[] getFloors() {
         Floor[] dw = dwellingFloor;
         return dw;
     }
-
+    @Override
     public Floor getFloorByNum(int numFloor) {
         if (numFloor < 0 || numFloor > size) {
             throw new FloorIndexOutOfBoundsException();
         }
         return dwellingFloor[numFloor];
     }
-
+    @Override
     public void setFloor(int numFloor, Floor dwellingFloor) {
         if (numFloor < 0 || numFloor > size) {
             throw new FloorIndexOutOfBoundsException();
@@ -76,7 +76,7 @@ public class Dwelling implements Building{
         this.dwellingFloor[numFloor] = dwellingFloor;
     }
 
-    //todo в последующих 4-х методах происходит нещадное дублирование кода. Вынеси этот код в отдельный приватный метод и вызывай его
+    @Override
     public Space getSpaceByNum(int numFlat) {
         if (numFlat <= 0 || numFlat > size()) {
             throw new SpaceIndexOutOfBoundsException();
@@ -91,7 +91,7 @@ public class Dwelling implements Building{
         i--;
         return this.dwellingFloor[i].getSpace(numFlat1);
     }
-
+    @Override
     public void setSpaceByNum(int numFlat, Space flat) {
         if (numFlat <= 0 || numFlat > size()) {
             throw new SpaceIndexOutOfBoundsException();
@@ -106,7 +106,7 @@ public class Dwelling implements Building{
         i--;
         this.dwellingFloor[i].setSpace(numFlat1, flat);
     }
-
+    @Override
     public void addSpaceByNum(int numFlat, Space flat) {
         if (numFlat <= 0 || numFlat > size() + 1) {
             throw new SpaceIndexOutOfBoundsException();
@@ -121,7 +121,7 @@ public class Dwelling implements Building{
         i--;
         this.dwellingFloor[i].addSpace(numFlat1, flat);
     }
-
+    @Override
     public void deleteSpaceByNum(int numFlat) {
         if (numFlat <= 0 || numFlat > size()) {
             throw new SpaceIndexOutOfBoundsException();
@@ -136,11 +136,10 @@ public class Dwelling implements Building{
         i--;
         this.dwellingFloor[i].deleteSpace(numFlat1);
     }
-
+    @Override
     public Space getBestSpace() {
         double maxSquare = 0;
         Space flat = new Flat(0);
-        //todo чтобы несколько раз не вызывать метод dwellingFloor[i].getBestSpace() - лучше запомни результат его выполнения в переменную и используй ее
         for (int i = 0; i < size; i++) {
             Space f = dwellingFloor[i].getBestSpace();
             if (f.getSquare() > maxSquare) {
@@ -195,7 +194,7 @@ public class Dwelling implements Building{
     }
 
 */
-
+@Override
     public Space[] getSortSpaces() {
         Space[] flats = new Space[size()];
         int i = 0;

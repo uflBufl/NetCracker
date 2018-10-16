@@ -1,7 +1,5 @@
-package com.company;
+package com.company.interfaces;
 
-import com.company.buildings.DwellingFloor;
-import com.company.buildings.Flat;
 import com.company.exceptions.FloorIndexOutOfBoundsException;
 import com.company.exceptions.SpaceIndexOutOfBoundsException;
 
