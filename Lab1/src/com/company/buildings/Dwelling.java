@@ -1,157 +1,171 @@
 package com.company.buildings;
 
+import com.company.Building;
+import com.company.Floor;
+import com.company.Space;
 import com.company.exceptions.FloorIndexOutOfBoundsException;
 import com.company.exceptions.SpaceIndexOutOfBoundsException;
 
-public class Dwelling {
-    private DwellingFloor dwellingFloor[];
+public class Dwelling implements Building{
+    private Floor dwellingFloor[];
+    private int size;
 
-    public Dwelling(int numFloor, int[] numFlat){
-        this.dwellingFloor = new DwellingFloor[numFloor];
-        for(int i = 0;i<this.dwellingFloor.length;i++){
+    public Dwelling(int numFloor, int... numFlat) {
+        this.dwellingFloor = new Floor[numFloor];
+        for (int i = 0; i < this.dwellingFloor.length; i++) {
             this.dwellingFloor[i] = new DwellingFloor(numFlat[i]);
+        }
+        size = 0;
+    }
+
+    public Dwelling(Floor... dwellingFloors) {
+        this.dwellingFloor = dwellingFloors;
+        size = 0;
+        for(Floor dw:dwellingFloors){
+            if(dw != null){
+                size++;
+            }
         }
     }
 
-    public Dwelling(DwellingFloor[] dwellingFloors){
-        this.dwellingFloor = dwellingFloors;
+    public int getNumFloors() {
+        //return dwellingFloor.length;
+        return size;
     }
 
-    public int getNumFloors(){
-        return dwellingFloor.length;
-    }
-
-    public int getNumFlats(){
+    public int size() {
         int numFlats = 0;
-        for(int i = 0;i<this.dwellingFloor.length;i++){
-            numFlats += this.dwellingFloor[i].getNumFlats();
+        for (int i = 0; i < size; i++) {
+            numFlats += this.dwellingFloor[i].size();
         }
         return numFlats;
     }
 
-    public double getSquare(){
+    public double squareTotal() {
         double square = 0;
-        for(int i =0;i<this.dwellingFloor.length;i++){
-            square += this.dwellingFloor[i].getSquareFloor();
+        for (int i = 0; i < size; i++) {
+            square += this.dwellingFloor[i].squareTotal();
         }
         return square;
     }
 
-    public int getNumRooms(){
+    public int roomsCountTotal() {
         int numRooms = 0;
-        for(int i =0;i<this.dwellingFloor.length;i++){
-            numRooms += this.dwellingFloor[i].getNumRooms();
+        for (int i = 0; i < size; i++) {
+            numRooms += this.dwellingFloor[i].roomsCountTotal();
         }
         return numRooms;
     }
 
-    public DwellingFloor[] getFloors(){
-        return dwellingFloor;
+    public Floor[] getFloors() {
+        Floor[] dw = dwellingFloor;
+        return dw;
     }
 
-    public DwellingFloor getFloorByNum(int numFloor){
-        if(numFloor < 0|| numFloor > dwellingFloor.length){
+    public Floor getFloorByNum(int numFloor) {
+        if (numFloor < 0 || numFloor > size) {
             throw new FloorIndexOutOfBoundsException();
         }
         return dwellingFloor[numFloor];
     }
 
-    public void editFloor(int numFloor, DwellingFloor dwellingFloor){
-        if(numFloor < 0|| numFloor > this.dwellingFloor.length){
+    public void setFloor(int numFloor, Floor dwellingFloor) {
+        if (numFloor < 0 || numFloor > size) {
             throw new FloorIndexOutOfBoundsException();
         }
         this.dwellingFloor[numFloor] = dwellingFloor;
     }
 
     //todo в последующих 4-х методах происходит нещадное дублирование кода. Вынеси этот код в отдельный приватный метод и вызывай его
-    public Flat getFlatByNum(int numFlat){
-        if(numFlat < 0 || numFlat>getNumFlats()){
-            throw new SpaceIndexOutOfBoundsException();
-        }
-        int i = 0;
-        int numFlat1 = numFlat;
-        int num = numFlat1;
-        for(i = 0;i<this.dwellingFloor.length&&num>=0;i++){
-            numFlat1 = num;
-            num -= this.dwellingFloor[i].getNumFlats();
-        }
-        i--;
-        return this.dwellingFloor[i].getFlat(numFlat1);
-    }
-
-    public void editFlatByNum(int numFlat, Flat flat){
-        if(numFlat < 0 || numFlat>getNumFlats()){
+    public Space getSpaceByNum(int numFlat) {
+        if (numFlat <= 0 || numFlat > size()) {
             throw new SpaceIndexOutOfBoundsException();
         }
         int i = 0;
         int numFlat1 = numFlat-1;
         int num = numFlat1;
-        for(i = 0;i<this.dwellingFloor.length&&num>=0;i++){
+        for (i = 0; i < size && num >= 0; i++) {
             numFlat1 = num;
-            num -= this.dwellingFloor[i].getNumFlats();
+            num -= this.dwellingFloor[i].size();
         }
         i--;
-        this.dwellingFloor[i].editFlat(numFlat1,flat);
+        return this.dwellingFloor[i].getSpace(numFlat1);
     }
 
-    public void newFlatByNum(int numFlat, Flat flat){
-        if(numFlat < 0 || numFlat>getNumFlats()+1){
+    public void setSpaceByNum(int numFlat, Space flat) {
+        if (numFlat <= 0 || numFlat > size()) {
             throw new SpaceIndexOutOfBoundsException();
         }
         int i = 0;
-        int numFlat1 = numFlat-1;
+        int numFlat1 = numFlat - 1;
         int num = numFlat1;
-        for(i = 0;i<this.dwellingFloor.length&&num>=0;i++){
+        for (i = 0; i < size && num >= 0; i++) {
             numFlat1 = num;
-            num -= this.dwellingFloor[i].getNumFlats();
+            num -= this.dwellingFloor[i].size();
         }
         i--;
-        this.dwellingFloor[i].newFlat(numFlat1,flat);
+        this.dwellingFloor[i].setSpace(numFlat1, flat);
     }
 
-    public void deleteFlatByNum(int numFlat){
-        if(numFlat < 0 || numFlat>getNumFlats()){
+    public void addSpaceByNum(int numFlat, Space flat) {
+        if (numFlat <= 0 || numFlat > size() + 1) {
             throw new SpaceIndexOutOfBoundsException();
         }
         int i = 0;
-        int numFlat1 = numFlat-1;
+        int numFlat1 = numFlat - 1;
         int num = numFlat1;
-        for(i = 0;i<this.dwellingFloor.length&&num>=0;i++){
+        for (i = 0; i < size && num >= 0; i++) {
             numFlat1 = num;
-            num -= this.dwellingFloor[i].getNumFlats();
+            num -= this.dwellingFloor[i].size();
         }
         i--;
-        this.dwellingFloor[i].deleteFlat(numFlat1);
+        this.dwellingFloor[i].addSpace(numFlat1, flat);
     }
 
-    public Flat getBestSpace(){
+    public void deleteSpaceByNum(int numFlat) {
+        if (numFlat <= 0 || numFlat > size()) {
+            throw new SpaceIndexOutOfBoundsException();
+        }
+        int i = 0;
+        int numFlat1 = numFlat - 1;
+        int num = numFlat1;
+        for (i = 0; i < size && num >= 0; i++) {
+            numFlat1 = num;
+            num -= this.dwellingFloor[i].size();
+        }
+        i--;
+        this.dwellingFloor[i].deleteSpace(numFlat1);
+    }
+
+    public Space getBestSpace() {
         double maxSquare = 0;
-        Flat flat = new Flat(0);
+        Space flat = new Flat(0);
         //todo чтобы несколько раз не вызывать метод dwellingFloor[i].getBestSpace() - лучше запомни результат его выполнения в переменную и используй ее
-        for(int i = 0;i<dwellingFloor.length;i++){
-            if(dwellingFloor[i].getBestSpace().getSquare()>maxSquare){
-                maxSquare = dwellingFloor[i].getBestSpace().getSquare();
-                flat = dwellingFloor[i].getBestSpace();
+        for (int i = 0; i < size; i++) {
+            Space f = dwellingFloor[i].getBestSpace();
+            if (f.getSquare() > maxSquare) {
+                maxSquare = f.getSquare();
+                flat = f;
             }
         }
         return flat;
     }
 /*
-    public int getBestSpaceHelp(){
+    public int getBestSpaceNumber(){
         double maxSquare = 0;
         int numFloor = 0;
         Flat flat = new Flat(0);
         for(int i = 0;i<dwellingFloor.length;i++){
-            if(dwellingFloor[i].getBestSpace().getSquare()>maxSquare){
-                maxSquare = dwellingFloor[i].getBestSpace().getSquare();
+            if(dwellingFloor[i].getBestSpace().squareTotal()>maxSquare){
+                maxSquare = dwellingFloor[i].getBestSpace().squareTotal();
                 flat = dwellingFloor[i].getBestSpace();
                 numFloor = i;
             }
         }
-        int numFlat = dwellingFloor[numFloor].getBestSpaceHelp();
+        int numFlat = dwellingFloor[numFloor].getBestSpaceNumber();
         int sumFlat = 0;
         for(int i = 0;i<numFloor;i++){
-            sumFlat += dwellingFloor[i].getNumFlats();
+            sumFlat += dwellingFloor[i].size();
         }
         sumFlat += numFlat;
 
@@ -163,16 +177,16 @@ public class Dwelling {
 
         Dwelling dwelling = new Dwelling(this.dwellingFloor);
 
-        Flat flats[] = new Flat[this.getNumFlats()];
+        Flat flats[] = new Flat[this.size()];
 
         Arrays.sort();
 
         for(int i = 0;i<flats.length;i++){
 
             flats[i] = dwelling.getBestSpace();
-            int num = dwelling.getBestSpaceHelp();
+            int num = dwelling.getBestSpaceNumber();
 
-            dwelling.deleteFlatByNum(num+1);
+            dwelling.deleteSpaceByNum(num+1);
         }
 
         return flats;
@@ -182,11 +196,11 @@ public class Dwelling {
 
 */
 
-    public Flat[] getSortFlats(){
-        Flat[] flats = new Flat[getNumFlats()];
+    public Space[] getSortSpaces() {
+        Space[] flats = new Space[size()];
         int i = 0;
-        for(DwellingFloor floor : dwellingFloor)
-            for(Flat flat : floor.getFlats()) {
+        for (Floor floor : dwellingFloor)
+            for (Space flat : floor.getSpaces()) {
                 flats[i] = flat;
                 i++;
             }
@@ -194,13 +208,13 @@ public class Dwelling {
         return flats;
     }
 
-    private static void quickSort(Flat[] flats) {
+    private static void quickSort(Space[] flats) {
         int startIndex = 0;
         int endIndex = flats.length - 1;
         doSort(startIndex, endIndex, flats);
     }
 
-    private static void doSort(int start, int end, Flat[] flats) {
+    private static void doSort(int start, int end, Space[] flats) {
         if (start >= end)
             return;
         int i = start, j = end;
@@ -213,7 +227,7 @@ public class Dwelling {
                 j--;
             }
             if (i < j) {
-                Flat temp = flats[i];
+                Space temp = flats[i];
                 flats[i] = flats[j];
                 flats[j] = temp;
                 if (i == cur)
@@ -223,7 +237,7 @@ public class Dwelling {
             }
         }
         doSort(start, cur, flats);
-        doSort(cur+1, end, flats);
+        doSort(cur + 1, end, flats);
     }
 
 

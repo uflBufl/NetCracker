@@ -1,124 +1,140 @@
 package com.company.buildings;
 
+import com.company.Floor;
+import com.company.Space;
 import com.company.buildings.Flat;
+import com.company.exceptions.SpaceIndexOutOfBoundsException;
 
-public class DwellingFloor {
-    private Flat flats[];
+public class DwellingFloor implements Floor {
+    private Space spaces[];
+    private int size;
 
-    public DwellingFloor(int num){
-        flats = new Flat[num];
+    public DwellingFloor(int num) {
+        spaces = new Space[num];
+        size = 0;
 //        for(int i = 0;i<num;i++){
-//            flats[i] = new Flat();
+//            spaces[i] = new Flat();
 //        }
     }
 
-    public DwellingFloor(Flat flats[]){
-        this.flats = flats;
+    public DwellingFloor(Space spaces[]) {
+        this.spaces = spaces;
+        size = 0;
+        for(Space f:spaces){
+            if(f != null){
+                size++;
+            }
+        }
 
     }
+
     //todo size()
-    public int getNumFlats(){
-        return flats.length;
+    public int size() {
+        //return spaces.length;
+        return size;
     }
 
     //todo squareTotal()
-    public double getSquareFloor(){
+    public double squareTotal() {
         double square = 0;
-        for(int i =0;i<flats.length;i++){
-            if(flats[i] !=null){
-                square += flats[i].getSquare();
-            }
+        for (int i = 0; i < size; i++) {
+            square += spaces[i].getSquare();
         }
         return square;
     }
+
     //todo roomsCountTotal()
-    public int getNumRooms(){
+    public int roomsCountTotal() {
         int rooms = 0;
-        for(int i =0;i<flats.length;i++){
-            if(flats[i] !=null){
-                rooms += flats[i].getRooms();
-            }
+        for (int i = 0; i < size; i++) {
+            rooms += spaces[i].getRooms();
         }
         return rooms;
     }
+
     //todo лучше копию массива возвращать
-    public Flat[] getFlats(){
-        return flats;
+    public Space[] getSpaces() {
+        Space[] sup = spaces;
+        return sup;
     }
 
-    public Flat getFlat(int num){
-        return flats[num];
+    public Space getSpace(int num) {
+        if(num < 0 || num> size()){
+            throw new SpaceIndexOutOfBoundsException();
+        }
+        return spaces[num];
     }
 
-    //todo setFlat()
-    public void editFlat(int num, Flat flat){
-        flats[num] = flat;
+    //todo setSpace()
+    public void setSpace(int num, Space space) {
+        if(num < 0 || num> size()){
+            throw new SpaceIndexOutOfBoundsException();
+        }
+        spaces[num] = space;
     }
 
-    //todo addFlat()
-    public void newFlat(int num, Flat flat){
-        Flat newFlats[] = new Flat[this.flats.length+1];
-        for(int i = 0;i<num;i++){
-            if(this.flats[i]!=null) {
-                newFlats[i] = this.flats[i];
-            }
+    //todo addSpace()
+    public void addSpace(int num, Space space) {
+        if(num < 0 || num> size()+1){
+            throw new SpaceIndexOutOfBoundsException();
+        }
+        Space newSpaces[] = new Space[size + 1];
+        for (int i = 0; i < num; i++) {
+            newSpaces[i] = this.spaces[i];
         }
 
-        newFlats[num] = flat;
+        size++;
+        newSpaces[num] = space;
 
-        for(int i = (num+1);i<newFlats.length;i++){
-            if(this.flats[i-1]!=null) {
-                newFlats[i] = this.flats[i - 1];
-            }
+        for (int i = (num + 1); i < size; i++) {
+            newSpaces[i] = this.spaces[i - 1];
         }
 
-        this.flats = newFlats;
+        this.spaces = newSpaces;
     }
 
 
-    public void deleteFlat(int num){
-        Flat newFlats[] = new Flat[this.flats.length-1];
-        for(int i = 0;i<num;i++){
-            if(this.flats[i]!=null) {
-                newFlats[i] = this.flats[i];
-            }
+    //todo сделать проверку на выход за границу Америки
+    public void deleteSpace(int num) {
+        if(num < 0 || num> size()){
+            throw new SpaceIndexOutOfBoundsException();
         }
-        for(int i = (num);i<newFlats.length;i++){
-            if(this.flats[i+1]!=null) {
-                newFlats[i] = this.flats[i + 1];
-            }
+        Space newSpaces[] = new Space[size - 1];
+        for (int i = 0; i < num; i++) {
+            newSpaces[i] = this.spaces[i];
+        }
+        size--;
+        for (int i = (num); i < size; i++) {
+            newSpaces[i] = this.spaces[i + 1];
         }
 
-        this.flats = newFlats;
+        this.spaces = newSpaces;
     }
 
-    public Flat getBestSpace(){
-        Flat flat = new Flat(0);
-        for(int i = 0;i<this.flats.length;i++){
-            if(this.flats[i].getSquare()>flat.getSquare()){
-                flat = this.flats[i];
+    public Space getBestSpace() {
+        Space space = new Flat(0);
+        for (int i = 0; i < this.spaces.length; i++) {
+            if (this.spaces[i].getSquare() > space.getSquare()) {
+                space = this.spaces[i];
             }
         }
-        return flat;
+        return space;
     }
 
-    //todo getBestSpaceNumber()
-    public int getBestSpaceHelp(){
-        Flat flat = new Flat(0);
-        int numFlat = 0;
-        for(int i = 0;i<this.flats.length;i++){
-            if(this.flats[i].getSquare()>flat.getSquare()){
-                flat = this.flats[i];
-                numFlat = i;
-            }
-        }
-        return numFlat;
-    }
-
-
-
-
-
+//
+//
+//    //todo getBestSpaceNumber()
+//    public int getBestSpaceNumber(){
+//        Space space = new Space(0);
+//        int numSpace = 0;
+//        for(int i = 0;i<this.spaces.length;i++){
+//            if(this.spaces[i].squareTotal()>space.squareTotal()){
+//                space = this.spaces[i];
+//                numSpace = i;
+//            }
+//        }
+//        return numSpace;
+//    }
 
 
 }

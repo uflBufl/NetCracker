@@ -1,47 +1,56 @@
 package com.company.buildings;
 
+import com.company.Space;
 import com.company.exceptions.InvalidRoomsCountException;
 import com.company.exceptions.InvalidSpaceAreaException;
 
-public class Flat {
+public class Flat implements Space {
     private double square;
-    private int rooms; //todo roomsQuantity или roomsCount
+    private int roomsCount; //todo roomsQuantity или roomsCount
+    final static private int defaultRooms = 2;
+    final static private double defaultSquares = 50;
+
+
 
     //todo литералы в коде - плохой вариант. Вынеси их в константы класса
     public Flat(){
-        this(50);
+        this(defaultSquares);
     }
 
     public Flat(double square){
-        this(square,2);
+        this(square,defaultRooms);
     }
 
-    public Flat(double square, int rooms){
-        if (rooms <0){
+    public Flat(double square, int roomsCount)   throws InvalidRoomsCountException, InvalidSpaceAreaException{
+        if (roomsCount <0){
             throw new InvalidRoomsCountException();
         }
         if(square <0){
             throw new InvalidSpaceAreaException();
         }
         this.square = square;
-        this.rooms = rooms;
+        this.roomsCount = roomsCount;
     }
 
+    @Override
     public int getRooms(){
-        return rooms;
+        return roomsCount;
     }
 
-    public void setRooms(int rooms){
-        if (rooms <0){
+    @Override
+    public void setRooms(int roomsCount){
+        if (roomsCount <0){
             throw new InvalidRoomsCountException();
         }
-        this.rooms = rooms;
+        this.roomsCount = roomsCount;
     }
 
+    @Override
     public double getSquare(){
         return square;
     }
 
+    @Override
     public void setSquare(double square){
         if(square <0){
             throw new InvalidSpaceAreaException();

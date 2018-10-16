@@ -1,23 +1,26 @@
 package com.company.buildings;
 
+import com.company.Building;
+import com.company.Floor;
+import com.company.Space;
 import com.company.exceptions.FloorIndexOutOfBoundsException;
 import com.company.exceptions.SpaceIndexOutOfBoundsException;
 
 class FloorListElement{
     FloorListElement next;
     FloorListElement previous;
-    OfficeFloor data;
+    Floor data;
 
     FloorListElement(){}
 
-    FloorListElement(OfficeFloor data){
+    FloorListElement(Floor data){
         this.data = data;
     }
 }
 
 
 
-public class OfficeBuilding {
+public class OfficeBuilding implements Building{
     private FloorListElement head;
 
     private FloorListElement getListElement(int num){
@@ -33,15 +36,15 @@ public class OfficeBuilding {
 
 //        if(num == 0){
 //            OfficeListElement last = getPreviousElement();
-//            last.next = newOffice;
-//            newOffice.next = head;
-//            head = newOffice;
+//            last.next = addSpace;
+//            addSpace.next = head;
+//            head = addSpace;
 //        }
 //        else {
 //            OfficeListElement previous = getListElement(num - 1);
 //            OfficeListElement following = previous.next;
-//            previous.next = newOffice;
-//            newOffice.next = following;
+//            previous.next = addSpace;
+//            addSpace.next = following;
 //        }
 
         if(head == null) {
@@ -74,16 +77,16 @@ public class OfficeBuilding {
         }
     }
 
-    public OfficeBuilding(int numFloor, int[] numOffice){
+    public OfficeBuilding(int numFloor, int... numOffice){
         for(int i = 0;i<numFloor;i++)
         {
-            OfficeFloor data = new OfficeFloor(numOffice[i]);
+            Floor data = new OfficeFloor(numOffice[i]);
             FloorListElement sup = new FloorListElement(data);
             addOfficeListElement(i,sup);
         }
     }
 
-    public OfficeBuilding(OfficeFloor[] officeFloors){
+    public OfficeBuilding(Floor... officeFloors){
         for(int i = 0;i<officeFloors.length;i++)
         {
             FloorListElement sup = new FloorListElement(officeFloors[i]);
@@ -105,39 +108,39 @@ public class OfficeBuilding {
         return num;
     }
 
-    public int getNumOffices(){
+    public int size(){
         int numFloors = getNumFloors();
         int numOffices = 0;
         FloorListElement sup = head;
         for(int i = 0;i<numFloors;i++){
-            numOffices += sup.data.getNumOffices();
+            numOffices += sup.data.size();
         }
         return numOffices;
     }
 
-    public double getSquare(){
+    public double squareTotal(){
         int numFloors = getNumFloors();
         double square = 0;
         FloorListElement sup = head;
         for(int i = 0;i<numFloors;i++){
-            square += sup.data.getSquareFloor();
+            square += sup.data.squareTotal();
         }
         return square;
     }
 
-    public int getNumRooms(){
+    public int roomsCountTotal(){
         int numFloors = getNumFloors();
         int numRooms = 0;
         FloorListElement sup = head;
         for(int i = 0;i<numFloors;i++){
-            numRooms += sup.data.getNumRooms();
+            numRooms += sup.data.roomsCountTotal();
         }
         return numRooms;
     }
 
-    public OfficeFloor[] getFloors(){
+    public Floor[] getFloors(){
         int numFloors = getNumFloors();
-        OfficeFloor floors[] = new OfficeFloor[numFloors];
+        Floor floors[] = new OfficeFloor[numFloors];
         FloorListElement sup = head;
         for(int i = 0;i<numFloors;i++){
             floors[i] = sup.data;
@@ -146,7 +149,7 @@ public class OfficeBuilding {
         return floors;
     }
 
-    public OfficeFloor getFloorByNum(int numFloor){
+    public Floor getFloorByNum(int numFloor){
         if(numFloor < 0 || numFloor>getNumFloors()){
             throw new FloorIndexOutOfBoundsException();
         }
@@ -154,7 +157,7 @@ public class OfficeBuilding {
         return sup.data;
     }
 
-    public void editFloor(int numFloor, OfficeFloor officeFloor){
+    public void setFloor(int numFloor, Floor officeFloor){
         if(numFloor < 0|| numFloor>getNumFloors()){
             throw new FloorIndexOutOfBoundsException();
         }
@@ -162,27 +165,27 @@ public class OfficeBuilding {
         sup.data = officeFloor;
     }
 
-    public Office getOfficeByNum(int numOffice){
-        if(numOffice < 0 || numOffice>getNumOffices()){
+    public Space getSpaceByNum(int numOffice){
+        if(numOffice <= 0 || numOffice> size()){
             throw new SpaceIndexOutOfBoundsException();
         }
 
         int numFloors = getNumFloors();
         FloorListElement sup = head;
-        int numOffice1 = numOffice;
+        int numOffice1 = numOffice-1;
         int num = numOffice1;
         for(int i = 0;i<numFloors&&num>=0;i++){
             numOffice1 = num;
-            num -= sup.data.getNumOffices();
+            num -= sup.data.size();
             sup = sup.next;
         }
         sup = sup.previous;
 
-        return sup.data.getOffice(numOffice1);
+        return sup.data.getSpace(numOffice1);
     }
 
-    public void editOfficeByNum(int numOffice, Office office){
-        if(numOffice < 0 || numOffice>getNumOffices()){
+    public void setSpaceByNum(int numOffice, Space office){
+        if(numOffice <= 0 || numOffice> size()){
             throw new SpaceIndexOutOfBoundsException();
         }
         int numFloors = getNumFloors();
@@ -191,16 +194,16 @@ public class OfficeBuilding {
         int num = numOffice1;
         for(int i = 0;i<numFloors&&num>=0;i++){
             numOffice1 = num;
-            num -= sup.data.getNumOffices();
+            num -= sup.data.size();
             sup = sup.next;
         }
         sup = sup.previous;
 
-        sup.data.editOffice(numOffice1,office);
+        sup.data.setSpace(numOffice1,office);
     }
 
-    public void newOfficeByNum(int numOffice, Office office){
-        if(numOffice < 0 || numOffice>getNumOffices()+1){
+    public void addSpaceByNum(int numOffice, Space office){
+        if(numOffice <= 0 || numOffice> size()+1){
             throw new SpaceIndexOutOfBoundsException();
         }
         int numFloors = getNumFloors();
@@ -209,16 +212,16 @@ public class OfficeBuilding {
         int num = numOffice1;
         for(int i = 0;i<numFloors&&num>=0;i++){
             numOffice1 = num;
-            num -= sup.data.getNumOffices();
+            num -= sup.data.size();
             sup = sup.next;
         }
         sup = sup.previous;
 
-        sup.data.newOffice(numOffice1,office);
+        sup.data.addSpace(numOffice1,office);
     }
 
-    public void deleteOfficeByNum(int numOffice){
-        if(numOffice < 0 || numOffice>getNumOffices()){
+    public void deleteSpaceByNum(int numOffice){
+        if(numOffice <= 0 || numOffice> size()){
             throw new SpaceIndexOutOfBoundsException();
         }
         int numFloors = getNumFloors();
@@ -227,23 +230,25 @@ public class OfficeBuilding {
         int num = numOffice1;
         for(int i = 0;i<numFloors&&num>=0;i++){
             numOffice1 = num;
-            num -= sup.data.getNumOffices();
+            num -= sup.data.size();
             sup = sup.next;
         }
         sup = sup.previous;
 
-        sup.data.deleteOffice(numOffice1);
+        sup.data.deleteSpace(numOffice1);
     }
 
-    public Office getBestSpace(){
+    public Space getBestSpace(){
         double maxSquare = 0;
-        Office office = new Office(0);
+        Space office = new Office(0);
         int numFloor = getNumFloors();
         FloorListElement sup = head;
+        //todo чтобы несколько раз не вызывать метод dwellingFloor[i].getBestSpace() - лучше запомни результат его выполнения в переменную и используй ее
         for(int i = 0;i<numFloor;i++){
-            if(sup.data.getBestSpace().getSquare()>maxSquare){
-                maxSquare = sup.data.getBestSpace().getSquare();
-                office = sup.data.getBestSpace();
+            Space o = sup.data.getBestSpace();
+            if(o.getSquare()>maxSquare){
+                maxSquare = o.getSquare();
+                office = o;
             }
             sup = sup.next;
         }
@@ -251,13 +256,13 @@ public class OfficeBuilding {
     }
 
 
-    public Office[] getSortOffices(){
-        Office[] offices = new Office[getNumOffices()];
+    public Space[] getSortSpaces(){
+        Space[] offices = new Space[size()];
         int num=0;
         int numFloor = getNumFloors();
         FloorListElement sup = head;
         for(int i = 0;i<numFloor;i++){
-            Office[] subOffices = sup.data.getOffices();
+            Space[] subOffices = sup.data.getSpaces();
             for(int j = 0;j<subOffices.length;j++){
                 offices[num] = subOffices[j];
                 num++;
@@ -269,13 +274,13 @@ public class OfficeBuilding {
         return offices;
     }
 
-    private static void quickSort(Office[] offices) {
+    private static void quickSort(Space[] offices) {
         int startIndex = 0;
         int endIndex = offices.length - 1;
         doSort(startIndex, endIndex, offices);
     }
 
-    private static void doSort(int start, int end, Office[] offices) {
+    private static void doSort(int start, int end, Space[] offices) {
         if (start >= end)
             return;
         int i = start, j = end;
@@ -288,7 +293,7 @@ public class OfficeBuilding {
                 j--;
             }
             if (i < j) {
-                Office temp = offices[i];
+                Space temp = offices[i];
                 offices[i] = offices[j];
                 offices[j] = temp;
                 if (i == cur)
