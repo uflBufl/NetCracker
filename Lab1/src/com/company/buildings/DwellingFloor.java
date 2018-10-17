@@ -11,9 +11,6 @@ public class DwellingFloor implements Floor {
     public DwellingFloor(int num) {
         spaces = new Space[num];
         size = 0;
-//        for(int i = 0;i<num;i++){
-//            spaces[i] = new Flat();
-//        }
     }
 
     public DwellingFloor(Space spaces[]) {
@@ -77,6 +74,7 @@ public class DwellingFloor implements Floor {
         if(num < 0 || num> size()+1){
             throw new SpaceIndexOutOfBoundsException();
         }
+        //todo создание новых массивов дело затратное, поэтому обычно размер массива увеличивают не на 1, а раза в 1,5 - 2
         Space newSpaces[] = new Space[size + 1];
         for (int i = 0; i < num; i++) {
             newSpaces[i] = this.spaces[i];
@@ -98,6 +96,7 @@ public class DwellingFloor implements Floor {
         if(num < 0 || num> size()){
             throw new SpaceIndexOutOfBoundsException();
         }
+        //todo при удалении вообще не надо создавать новый массив - просто сдвигаешь все эелементы, начиная с num на один влево
         Space newSpaces[] = new Space[size - 1];
         for (int i = 0; i < num; i++) {
             newSpaces[i] = this.spaces[i];
@@ -112,7 +111,7 @@ public class DwellingFloor implements Floor {
     @Override
     public Space getBestSpace() {
         Space space = new Flat(0);
-        for (int i = 0; i < this.spaces.length; i++) {
+        for (int i = 0; i < this.spaces.length; i++) { //todo size, а не length
             if (this.spaces[i].getSquare() > space.getSquare()) {
                 space = this.spaces[i];
             }

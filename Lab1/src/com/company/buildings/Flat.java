@@ -6,13 +6,10 @@ import com.company.exceptions.InvalidSpaceAreaException;
 
 public class Flat implements Space {
     private double square;
-    private int roomsCount; //todo roomsQuantity или roomsCount
-    final static private int defaultRooms = 2;
+    private int roomsCount;
+    final static private int defaultRooms = 2; //todo константы класса в Java пишутся в формате ROOMS_COUNT_DEFAULT - примени такой стиль ко всем константам класса
     final static private double defaultSquares = 50;
 
-
-
-    //todo литералы в коде - плохой вариант. Вынеси их в константы класса
     public Flat(){
         this(defaultSquares);
     }

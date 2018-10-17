@@ -19,6 +19,7 @@ class OfficeListElement{
 
 public class OfficeFloor implements Floor {
     private OfficeListElement head;
+    //todo здесь size тоже не помешало бы хранить, чтоб не пересчитывать его в методе size()
 
     private OfficeListElement getPreviousElement(OfficeListElement following){
         OfficeListElement sup = head;
@@ -59,6 +60,7 @@ public class OfficeFloor implements Floor {
             }
         }
         else{
+            //todo чтоб не ходить в поисках элемента с начала списка getListElement getPreviousElement, почему бы сразу не получить getListElement(num-1) - это и будет твой previous
             OfficeListElement following = getListElement(num);
             OfficeListElement previous = getPreviousElement(following);
             previous.next = newOffice;
@@ -71,6 +73,7 @@ public class OfficeFloor implements Floor {
     }
 
     private void deleteOfficeListElement(int num){
+        //todo чтоб не ходить в поисках элемента с начала списка getListElement getPreviousElement, почему бы сразу не получить getListElement(num-1) - это и будет твой previous
         OfficeListElement deleted = getListElement(num);
         OfficeListElement previous = getPreviousElement(deleted);
         previous.next = deleted.next;
@@ -81,6 +84,7 @@ public class OfficeFloor implements Floor {
     }
 
     public OfficeFloor(int num){
+        //todo здесь лучше вообще ничего не делать, только создать head, чтоб не создавать officeList Элементы с data = null
         for(int i = 0;i<num;i++){
             OfficeListElement sup = new OfficeListElement();
             //sup.data = new Office();
@@ -117,6 +121,7 @@ public class OfficeFloor implements Floor {
             OfficeListElement sup = head;
             do {
                 square += head.data.getSquare();
+                //todo а где переход к следующему элементу?
             }
             while (sup.next != head);
         }
@@ -129,6 +134,8 @@ public class OfficeFloor implements Floor {
             OfficeListElement sup = head;
             do {
                 rooms += head.data.getRooms();
+                //todo а где переход к следующему элементу?
+
             }
             while (sup.next != head);
         }
@@ -166,6 +173,7 @@ public class OfficeFloor implements Floor {
             throw new SpaceIndexOutOfBoundsException();
         }
         OfficeListElement newOffice = new OfficeListElement(office);
+        //todo нафиг здесь то сам узел удалять, а потом добавлять новый? Можно просто изменить data у найденного нода
         deleteOfficeListElement(num);
         addOfficeListElement(num, newOffice);
     }

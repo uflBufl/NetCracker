@@ -76,6 +76,7 @@ public class Dwelling implements Building{
         this.dwellingFloor[numFloor] = dwellingFloor;
     }
 
+    //todo убери дублирование кода
     @Override
     public Space getSpaceByNum(int numFlat) {
         if (numFlat <= 0 || numFlat > size()) {
@@ -91,6 +92,7 @@ public class Dwelling implements Building{
         i--;
         return this.dwellingFloor[i].getSpace(numFlat1);
     }
+    //todo убери дублирование кода
     @Override
     public void setSpaceByNum(int numFlat, Space flat) {
         if (numFlat <= 0 || numFlat > size()) {
@@ -106,6 +108,7 @@ public class Dwelling implements Building{
         i--;
         this.dwellingFloor[i].setSpace(numFlat1, flat);
     }
+    //todo убери дублирование кода
     @Override
     public void addSpaceByNum(int numFlat, Space flat) {
         if (numFlat <= 0 || numFlat > size() + 1) {
@@ -121,6 +124,7 @@ public class Dwelling implements Building{
         i--;
         this.dwellingFloor[i].addSpace(numFlat1, flat);
     }
+    //todo убери дублирование кода
     @Override
     public void deleteSpaceByNum(int numFlat) {
         if (numFlat <= 0 || numFlat > size()) {

@@ -4,7 +4,6 @@ import com.company.interfaces.Space;
 import com.company.exceptions.InvalidRoomsCountException;
 import com.company.exceptions.InvalidSpaceAreaException;
 
-//todo аналогично Flat
 public class Office implements Space {
     private double square;
     private int roomsCount;

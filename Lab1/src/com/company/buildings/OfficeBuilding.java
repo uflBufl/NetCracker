@@ -22,6 +22,7 @@ class FloorListElement{
 
 public class OfficeBuilding implements Building{
     private FloorListElement head;
+    //todo здесь size тоже не помешало бы хранить, чтоб не пересчитывать его в методе size()
 
     private FloorListElement getListElement(int num){
         FloorListElement sup = head;
@@ -164,6 +165,7 @@ public class OfficeBuilding implements Building{
         FloorListElement sup = getListElement(numFloor);
         sup.data = officeFloor;
     }
+    //todo убери дублирование кода
     @Override
     public Space getSpaceByNum(int numOffice){
         if(numOffice <= 0 || numOffice> size()){
@@ -183,6 +185,7 @@ public class OfficeBuilding implements Building{
 
         return sup.data.getSpace(numOffice1);
     }
+    //todo убери дублирование кода
     @Override
     public void setSpaceByNum(int numOffice, Space office){
         if(numOffice <= 0 || numOffice> size()){
@@ -201,6 +204,7 @@ public class OfficeBuilding implements Building{
 
         sup.data.setSpace(numOffice1,office);
     }
+    //todo убери дублирование кода
     @Override
     public void addSpaceByNum(int numOffice, Space office){
         if(numOffice <= 0 || numOffice> size()+1){
@@ -219,6 +223,7 @@ public class OfficeBuilding implements Building{
 
         sup.data.addSpace(numOffice1,office);
     }
+    //todo убери дублирование кода
     @Override
     public void deleteSpaceByNum(int numOffice){
         if(numOffice <= 0 || numOffice> size()){
@@ -243,7 +248,6 @@ public class OfficeBuilding implements Building{
         Space office = new Office(0);
         int numFloor = getNumFloors();
         FloorListElement sup = head;
-        //todo чтобы несколько раз не вызывать метод dwellingFloor[i].getBestSpace() - лучше запомни результат его выполнения в переменную и используй ее
         for(int i = 0;i<numFloor;i++){
             Space o = sup.data.getBestSpace();
             if(o.getSquare()>maxSquare){
