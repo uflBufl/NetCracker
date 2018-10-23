@@ -6,6 +6,16 @@ import com.company.interfaces.Space;
 import com.company.exceptions.FloorIndexOutOfBoundsException;
 import com.company.exceptions.SpaceIndexOutOfBoundsException;
 
+class FloorAndNumberOffice{
+    FloorListElement floor;
+    int numOffice;
+
+    public FloorAndNumberOffice(FloorListElement floor, int numOffice){
+        this.floor = floor;
+        this.numOffice = numOffice;
+    }
+}
+
 class FloorListElement{
     FloorListElement next;
     FloorListElement previous;
@@ -22,7 +32,7 @@ class FloorListElement{
 
 public class OfficeBuilding implements Building{
     private FloorListElement head;
-    //todo здесь size тоже не помешало бы хранить, чтоб не пересчитывать его в методе size()
+    int size;
 
     private FloorListElement getListElement(int num){
         FloorListElement sup = head;
@@ -33,6 +43,7 @@ public class OfficeBuilding implements Building{
     }
 
     private void addOfficeListElement(int num, FloorListElement addFloor){
+        size++;
         FloorListElement newFloor = addFloor;
 
 //        if(num == 0){
@@ -72,6 +83,7 @@ public class OfficeBuilding implements Building{
         FloorListElement deleted = getListElement(num);
         deleted.previous.next = deleted.next;
         deleted.next.previous = deleted.previous;
+        size--;
 
         if(num == 0){
             head = deleted.next;
@@ -110,7 +122,7 @@ public class OfficeBuilding implements Building{
     }
     @Override
     public int size(){
-        int numFloors = getNumFloors();
+        int numFloors = size;
         int numOffices = 0;
         FloorListElement sup = head;
         for(int i = 0;i<numFloors;i++){
@@ -120,7 +132,7 @@ public class OfficeBuilding implements Building{
     }
     @Override
     public double squareTotal(){
-        int numFloors = getNumFloors();
+        int numFloors = size;
         double square = 0;
         FloorListElement sup = head;
         for(int i = 0;i<numFloors;i++){
@@ -130,7 +142,7 @@ public class OfficeBuilding implements Building{
     }
     @Override
     public int roomsCountTotal(){
-        int numFloors = getNumFloors();
+        int numFloors = size;
         int numRooms = 0;
         FloorListElement sup = head;
         for(int i = 0;i<numFloors;i++){
@@ -140,7 +152,7 @@ public class OfficeBuilding implements Building{
     }
     @Override
     public Floor[] getFloors(){
-        int numFloors = getNumFloors();
+        int numFloors = size;
         Floor floors[] = new OfficeFloor[numFloors];
         FloorListElement sup = head;
         for(int i = 0;i<numFloors;i++){
@@ -151,7 +163,7 @@ public class OfficeBuilding implements Building{
     }
     @Override
     public Floor getFloorByNum(int numFloor){
-        if(numFloor < 0 || numFloor>getNumFloors()){
+        if(numFloor < 0 || numFloor>size){
             throw new FloorIndexOutOfBoundsException();
         }
         FloorListElement sup = getListElement(numFloor);
@@ -159,86 +171,82 @@ public class OfficeBuilding implements Building{
     }
     @Override
     public void setFloor(int numFloor, Floor officeFloor){
-        if(numFloor < 0|| numFloor>getNumFloors()){
+        if(numFloor < 0|| numFloor>size){
             throw new FloorIndexOutOfBoundsException();
         }
         FloorListElement sup = getListElement(numFloor);
         sup.data = officeFloor;
     }
-    //todo убери дублирование кода
+
+    private FloorAndNumberOffice getNumberFloorAndNumberOffice(int numOffice){
+        int numFloors = size;
+        FloorListElement sup = head;
+        int numOffice1 = numOffice-1;
+        int num = numOffice1;
+        for(int i = 0;i<numFloors&&num>=0;i++){
+            numOffice1 = num;
+            num -= sup.data.size();
+            sup = sup.next;
+        }
+        sup = sup.previous;
+
+        FloorAndNumberOffice dto = new FloorAndNumberOffice(sup,numOffice1);
+
+        return dto;
+    }
+
+
+
+
+
     @Override
     public Space getSpaceByNum(int numOffice){
         if(numOffice <= 0 || numOffice> size()){
             throw new SpaceIndexOutOfBoundsException();
         }
 
-        int numFloors = getNumFloors();
-        FloorListElement sup = head;
-        int numOffice1 = numOffice-1;
-        int num = numOffice1;
-        for(int i = 0;i<numFloors&&num>=0;i++){
-            numOffice1 = num;
-            num -= sup.data.size();
-            sup = sup.next;
-        }
-        sup = sup.previous;
+        FloorAndNumberOffice dto = getNumberFloorAndNumberOffice(numOffice);
+        FloorListElement sup = dto.floor;
+        int numOffice1 = dto.numOffice;
 
         return sup.data.getSpace(numOffice1);
     }
-    //todo убери дублирование кода
+
     @Override
     public void setSpaceByNum(int numOffice, Space office){
         if(numOffice <= 0 || numOffice> size()){
             throw new SpaceIndexOutOfBoundsException();
         }
-        int numFloors = getNumFloors();
-        FloorListElement sup = head;
-        int numOffice1 = numOffice-1;
-        int num = numOffice1;
-        for(int i = 0;i<numFloors&&num>=0;i++){
-            numOffice1 = num;
-            num -= sup.data.size();
-            sup = sup.next;
-        }
-        sup = sup.previous;
+
+        FloorAndNumberOffice dto = getNumberFloorAndNumberOffice(numOffice);
+        FloorListElement sup = dto.floor;
+        int numOffice1 = dto.numOffice;
 
         sup.data.setSpace(numOffice1,office);
     }
-    //todo убери дублирование кода
+
     @Override
     public void addSpaceByNum(int numOffice, Space office){
         if(numOffice <= 0 || numOffice> size()+1){
             throw new SpaceIndexOutOfBoundsException();
         }
-        int numFloors = getNumFloors();
-        FloorListElement sup = head;
-        int numOffice1 = numOffice-1;
-        int num = numOffice1;
-        for(int i = 0;i<numFloors&&num>=0;i++){
-            numOffice1 = num;
-            num -= sup.data.size();
-            sup = sup.next;
-        }
-        sup = sup.previous;
+
+        FloorAndNumberOffice dto = getNumberFloorAndNumberOffice(numOffice);
+        FloorListElement sup = dto.floor;
+        int numOffice1 = dto.numOffice;
 
         sup.data.addSpace(numOffice1,office);
     }
-    //todo убери дублирование кода
+
     @Override
     public void deleteSpaceByNum(int numOffice){
         if(numOffice <= 0 || numOffice> size()){
             throw new SpaceIndexOutOfBoundsException();
         }
-        int numFloors = getNumFloors();
-        FloorListElement sup = head;
-        int numOffice1 = numOffice-1;
-        int num = numOffice1;
-        for(int i = 0;i<numFloors&&num>=0;i++){
-            numOffice1 = num;
-            num -= sup.data.size();
-            sup = sup.next;
-        }
-        sup = sup.previous;
+
+        FloorAndNumberOffice dto = getNumberFloorAndNumberOffice(numOffice);
+        FloorListElement sup = dto.floor;
+        int numOffice1 = dto.numOffice;
 
         sup.data.deleteSpace(numOffice1);
     }
@@ -246,7 +254,7 @@ public class OfficeBuilding implements Building{
     public Space getBestSpace(){
         double maxSquare = 0;
         Space office = new Office(0);
-        int numFloor = getNumFloors();
+        int numFloor = size;
         FloorListElement sup = head;
         for(int i = 0;i<numFloor;i++){
             Space o = sup.data.getBestSpace();
@@ -263,7 +271,7 @@ public class OfficeBuilding implements Building{
     public Space[] getSortSpaces(){
         Space[] offices = new Space[size()];
         int num=0;
-        int numFloor = getNumFloors();
+        int numFloor = size;
         FloorListElement sup = head;
         for(int i = 0;i<numFloor;i++){
             Space[] subOffices = sup.data.getSpaces();

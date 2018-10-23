@@ -6,6 +6,17 @@ import com.company.interfaces.Space;
 import com.company.exceptions.FloorIndexOutOfBoundsException;
 import com.company.exceptions.SpaceIndexOutOfBoundsException;
 
+//DTO
+class NumberFloorAndNumberFlat{
+    int numFloor;
+    int numFlat;
+
+    public NumberFloorAndNumberFlat(int numFloor, int numFlat){
+        this.numFloor = numFloor;
+        this.numFlat = numFlat;
+    }
+}
+
 public class Dwelling implements Building{
     private Floor dwellingFloor[];
     private int size;
@@ -76,12 +87,9 @@ public class Dwelling implements Building{
         this.dwellingFloor[numFloor] = dwellingFloor;
     }
 
-    //todo убери дублирование кода
-    @Override
-    public Space getSpaceByNum(int numFlat) {
-        if (numFlat <= 0 || numFlat > size()) {
-            throw new SpaceIndexOutOfBoundsException();
-        }
+    private NumberFloorAndNumberFlat getNummberFloorAndNumberFlat(int numFlat){
+
+
         int i = 0;
         int numFlat1 = numFlat-1;
         int num = numFlat1;
@@ -90,54 +98,61 @@ public class Dwelling implements Building{
             num -= this.dwellingFloor[i].size();
         }
         i--;
+
+        NumberFloorAndNumberFlat dto = new NumberFloorAndNumberFlat(i,numFlat1);
+        return dto;
+    }
+
+
+    @Override
+    public Space getSpaceByNum(int numFlat) {
+        if (numFlat <= 0 || numFlat > size()) {
+            throw new SpaceIndexOutOfBoundsException();
+        }
+
+        NumberFloorAndNumberFlat dto = getNummberFloorAndNumberFlat(numFlat);
+        int i = dto.numFloor;
+        int numFlat1 = dto.numFlat;
+
         return this.dwellingFloor[i].getSpace(numFlat1);
     }
-    //todo убери дублирование кода
+
     @Override
     public void setSpaceByNum(int numFlat, Space flat) {
         if (numFlat <= 0 || numFlat > size()) {
             throw new SpaceIndexOutOfBoundsException();
         }
-        int i = 0;
-        int numFlat1 = numFlat - 1;
-        int num = numFlat1;
-        for (i = 0; i < size && num >= 0; i++) {
-            numFlat1 = num;
-            num -= this.dwellingFloor[i].size();
-        }
-        i--;
+
+        NumberFloorAndNumberFlat dto = getNummberFloorAndNumberFlat(numFlat);
+        int i = dto.numFloor;
+        int numFlat1 = dto.numFlat;
+
         this.dwellingFloor[i].setSpace(numFlat1, flat);
     }
-    //todo убери дублирование кода
+
     @Override
     public void addSpaceByNum(int numFlat, Space flat) {
         if (numFlat <= 0 || numFlat > size() + 1) {
             throw new SpaceIndexOutOfBoundsException();
         }
-        int i = 0;
-        int numFlat1 = numFlat - 1;
-        int num = numFlat1;
-        for (i = 0; i < size && num >= 0; i++) {
-            numFlat1 = num;
-            num -= this.dwellingFloor[i].size();
-        }
-        i--;
+
+        NumberFloorAndNumberFlat dto = getNummberFloorAndNumberFlat(numFlat);
+        int i = dto.numFloor;
+        int numFlat1 = dto.numFlat;
+
         this.dwellingFloor[i].addSpace(numFlat1, flat);
     }
-    //todo убери дублирование кода
+
     @Override
     public void deleteSpaceByNum(int numFlat) {
         if (numFlat <= 0 || numFlat > size()) {
             throw new SpaceIndexOutOfBoundsException();
         }
-        int i = 0;
-        int numFlat1 = numFlat - 1;
-        int num = numFlat1;
-        for (i = 0; i < size && num >= 0; i++) {
-            numFlat1 = num;
-            num -= this.dwellingFloor[i].size();
-        }
-        i--;
+
+        NumberFloorAndNumberFlat dto = getNummberFloorAndNumberFlat(numFlat);
+        int i = dto.numFloor;
+        int numFlat1 = dto.numFlat;
+
         this.dwellingFloor[i].deleteSpace(numFlat1);
     }
     @Override

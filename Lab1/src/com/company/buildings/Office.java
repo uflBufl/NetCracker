@@ -7,15 +7,15 @@ import com.company.exceptions.InvalidSpaceAreaException;
 public class Office implements Space {
     private double square;
     private int roomsCount;
-    final static private int defaultRooms = 1;
-    final static private double defaultSquares = 250;
+    final static private int DEFAULT_ROOMS = 1;
+    final static private double DEFAULT_SQUARES = 250;
 
     public Office(){
-        this(defaultSquares);
+        this(DEFAULT_SQUARES);
     }
 
     public Office(double square){
-        this(square,defaultRooms);
+        this(square, DEFAULT_ROOMS);
     }
 
     public Office(double square, int roomsCount)  throws InvalidRoomsCountException, InvalidSpaceAreaException{

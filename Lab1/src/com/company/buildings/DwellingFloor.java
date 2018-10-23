@@ -74,20 +74,36 @@ public class DwellingFloor implements Floor {
         if(num < 0 || num> size()+1){
             throw new SpaceIndexOutOfBoundsException();
         }
-        //todo создание новых массивов дело затратное, поэтому обычно размер массива увеличивают не на 1, а раза в 1,5 - 2
-        Space newSpaces[] = new Space[size + 1];
-        for (int i = 0; i < num; i++) {
-            newSpaces[i] = this.spaces[i];
+
+
+        if(spaces.length==size) {
+            int newSize = this.size * 2;
+
+            Space newSpaces[] = new Space[newSize];
+            for (int i = 0; i < num; i++) {
+                newSpaces[i] = this.spaces[i];
+            }
+
+            size++;
+            newSpaces[num] = space;
+
+            for (int i = (num + 1); i < size; i++) {
+                newSpaces[i] = this.spaces[i - 1];
+            }
+
+            this.spaces = newSpaces;
+
         }
-
-        size++;
-        newSpaces[num] = space;
-
-        for (int i = (num + 1); i < size; i++) {
-            newSpaces[i] = this.spaces[i - 1];
+        else {
+            //сделано так, что бы не путать size и номер элемента
+            int i = 0;
+            for(i = size-1;i>=num;i--){
+                spaces[i+1] = spaces[i];
+            }
+            size++;
+            i++;
+            spaces[i] = space;
         }
-
-        this.spaces = newSpaces;
     }
 
 
@@ -96,22 +112,34 @@ public class DwellingFloor implements Floor {
         if(num < 0 || num> size()){
             throw new SpaceIndexOutOfBoundsException();
         }
-        //todo при удалении вообще не надо создавать новый массив - просто сдвигаешь все эелементы, начиная с num на один влево
-        Space newSpaces[] = new Space[size - 1];
-        for (int i = 0; i < num; i++) {
-            newSpaces[i] = this.spaces[i];
-        }
-        size--;
-        for (int i = (num); i < size; i++) {
-            newSpaces[i] = this.spaces[i + 1];
-        }
 
-        this.spaces = newSpaces;
+
+       //сделано так, что бы не путать size и номер элемента
+        size--;
+        int i = 0;
+        for(i = num;i<size;i++){
+            spaces[i] = spaces[i+1];
+        }
+        spaces[i] = null;
+
+
+//
+//
+//        Space newSpaces[] = new Space[size - 1];
+//        for (int i = 0; i < num; i++) {
+//            newSpaces[i] = this.spaces[i];
+//        }
+//        size--;
+//        for (int i = (num); i < size; i++) {
+//            newSpaces[i] = this.spaces[i + 1];
+//        }
+//
+//        this.spaces = newSpaces;
     }
     @Override
     public Space getBestSpace() {
         Space space = new Flat(0);
-        for (int i = 0; i < this.spaces.length; i++) { //todo size, а не length
+        for (int i = 0; i < size; i++) {
             if (this.spaces[i].getSquare() > space.getSquare()) {
                 space = this.spaces[i];
             }
