@@ -4,7 +4,11 @@ import com.company.interfaces.Floor;
 import com.company.interfaces.Space;
 import com.company.exceptions.SpaceIndexOutOfBoundsException;
 
-class OfficeListElement{
+import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Objects;
+
+class OfficeListElement implements Serializable{
     OfficeListElement next;
     Space data;
 
@@ -17,7 +21,7 @@ class OfficeListElement{
 
 
 
-public class OfficeFloor implements Floor {
+public class OfficeFloor implements Floor, Serializable {
     private OfficeListElement head;
     int size;
 
@@ -100,6 +104,38 @@ public class OfficeFloor implements Floor {
             addOfficeListElement(i,sup);
         }
     }
+
+    @Override
+    public String toString() {
+        return "OfficeFloor (" + size() + ", " + Arrays.toString(getSpaces()) + ')';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OfficeFloor that = (OfficeFloor) o;
+        return size == that.size &&
+                Objects.equals(head, that.head);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(head, size);
+    }
+
+    @Override
+    public Object clone(){
+        Space[] spaces = getSpaces();
+        Space[] newSpaces = new Space[spaces.length];
+
+        for(int i = 0; i < spaces.length; i++)
+            newSpaces[i] = (Space) spaces[i].clone();
+
+        return new DwellingFloor(newSpaces);
+    }
+
     @Override
     public int size(){
         int num = 0;

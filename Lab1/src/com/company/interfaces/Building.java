@@ -4,6 +4,8 @@ import com.company.exceptions.FloorIndexOutOfBoundsException;
 import com.company.exceptions.SpaceIndexOutOfBoundsException;
 
 public interface Building {
+    Object clone();
+
     int getNumFloors();
 
     int size();

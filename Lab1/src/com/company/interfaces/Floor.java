@@ -3,6 +3,8 @@ package com.company.interfaces;
 import com.company.exceptions.SpaceIndexOutOfBoundsException;
 
 public interface Floor {
+    Object clone();
+
     int size();
     double squareTotal();
     int roomsCountTotal();

@@ -4,7 +4,10 @@ import com.company.interfaces.Space;
 import com.company.exceptions.InvalidRoomsCountException;
 import com.company.exceptions.InvalidSpaceAreaException;
 
-public class Flat implements Space {
+import java.io.Serializable;
+import java.util.Objects;
+
+public class Flat implements Space, Serializable {
     private double square;
     private int roomsCount;
     final static private int DEFAULT_ROOMS = 2;
@@ -27,6 +30,36 @@ public class Flat implements Space {
         }
         this.square = square;
         this.roomsCount = roomsCount;
+    }
+
+    @Override
+    public String toString() {
+        return "Flat (" + roomsCount + ", " + square + ')';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Flat flat = (Flat) o;
+        return Double.compare(flat.square, square) == 0 &&
+                roomsCount == flat.roomsCount;
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(square, roomsCount);
+    }
+
+    @Override
+    public Object clone(){
+        try {
+            return super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override

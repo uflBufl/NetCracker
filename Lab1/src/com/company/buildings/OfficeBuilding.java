@@ -6,6 +6,10 @@ import com.company.interfaces.Space;
 import com.company.exceptions.FloorIndexOutOfBoundsException;
 import com.company.exceptions.SpaceIndexOutOfBoundsException;
 
+import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Objects;
+
 class FloorAndNumberOffice{
     FloorListElement floor;
     int numOffice;
@@ -16,7 +20,7 @@ class FloorAndNumberOffice{
     }
 }
 
-class FloorListElement{
+class FloorListElement implements Serializable{
     FloorListElement next;
     FloorListElement previous;
     Floor data;
@@ -30,7 +34,7 @@ class FloorListElement{
 
 
 
-public class OfficeBuilding implements Building{
+public class OfficeBuilding implements Building, Serializable {
     private FloorListElement head;
     int size;
 
@@ -106,6 +110,38 @@ public class OfficeBuilding implements Building{
             addOfficeListElement(i,sup);
         }
     }
+
+    @Override
+    public String toString() {
+        return "OfficeBuilding (" + getNumFloors() + ", " + Arrays.toString(getFloors()) + ')';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OfficeBuilding that = (OfficeBuilding) o;
+        return size == that.size &&
+                Objects.equals(head, that.head);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(head, size);
+    }
+
+    @Override
+    public Object clone(){
+        Floor[] floors = getFloors();
+        Floor[] newFloors = new Floor[floors.length];
+
+        for(int i = 0; i < floors.length; i++)
+            newFloors[i] = (Floor) floors[i].clone();
+
+        return new Dwelling(newFloors);
+    }
+
     @Override
     public int getNumFloors(){
         int num = 0;
