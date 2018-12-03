@@ -8,8 +8,8 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class DwellingFloor implements Floor, Serializable {
-    private Space spaces[];
+public class DwellingFloor implements Floor, Serializable, Cloneable {
+    private Space[] spaces;
     private int size;
 
     public DwellingFloor(int num) {
@@ -29,9 +29,9 @@ public class DwellingFloor implements Floor, Serializable {
     }
 
     public String toString() {
-        return "OfficeFloor (" + size() + ", " + Arrays.toString(getSpaces()) + ')';
+        return "DwellingFloor (" + size() + ", " + Arrays.toString(getSpaces()) + ')';
     }
-
+//Arrays.deepToString
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -49,16 +49,55 @@ public class DwellingFloor implements Floor, Serializable {
         return result;
     }
 
-    @Override
-    public Object clone(){
-        Space[] spaces = getSpaces();
-        Space[] newSpaces = new Space[spaces.length];
 
-        for(int i = 0; i < spaces.length; i++)
-            newSpaces[i] = (Space) spaces[i].clone();
 
-        return new DwellingFloor(newSpaces);
+    public Object clone() throws CloneNotSupportedException
+    {
+        Floor clon=(Floor) super.clone();
+        for(int i=0;i<size();i++)
+        {
+            clon.setSpace(i,(Space)getSpace(i).clone());
+        }
+        return  clon;
     }
+
+
+
+
+
+//    @Override
+//    public Floor clone(){
+//
+//            try {
+//                DwellingFloor dw = (DwellingFloor) super.clone();
+//                dw.spaces = spaces.clone();
+////                DwellingFloor dw = new DwellingFloor(spaces);
+//                for (int i = 0; i < dw.spaces.length; i++) {
+//                    Space sp = getSpace(i).clone();
+//                //    sp.setRooms(67);
+//
+//                    dw.spaces[i] = sp;
+//                }
+//
+//
+//                return dw;
+//
+//            }catch (CloneNotSupportedException e) {
+//                e.printStackTrace();
+//            }
+//
+//            return null;
+//
+////                Space[] spaces = getSpaces();
+////                Space[] newSpaces = new Space[spaces.length];
+////
+////                for (int i = 0; i < this.spaces.length; i++)
+////                    newSpaces[i] = (Space) spaces[i].clone();
+////
+////                return new DwellingFloor(newSpaces);
+//
+//
+//    }
 
     @Override
     public int size() {

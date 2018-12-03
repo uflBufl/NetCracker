@@ -3,8 +3,10 @@ package com.company.interfaces;
 import com.company.exceptions.InvalidRoomsCountException;
 import com.company.exceptions.InvalidSpaceAreaException;
 
-public interface Space {
-    Object clone();
+import java.io.Serializable;
+
+public interface Space extends Serializable,Cloneable {
+    Object clone() throws CloneNotSupportedException;
 
     int getRooms();
     void setRooms(int roomsCount)  throws InvalidRoomsCountException;

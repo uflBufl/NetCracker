@@ -132,14 +132,14 @@ public class OfficeBuilding implements Building, Serializable {
     }
 
     @Override
-    public Object clone(){
+    public Building clone() throws CloneNotSupportedException{
         Floor[] floors = getFloors();
         Floor[] newFloors = new Floor[floors.length];
 
         for(int i = 0; i < floors.length; i++)
             newFloors[i] = (Floor) floors[i].clone();
 
-        return new Dwelling(newFloors);
+        return new OfficeBuilding(newFloors);
     }
 
     @Override

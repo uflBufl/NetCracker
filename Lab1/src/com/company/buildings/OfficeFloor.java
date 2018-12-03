@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
 
-class OfficeListElement implements Serializable{
+class OfficeListElement implements Serializable, Cloneable{
     OfficeListElement next;
     Space data;
 
@@ -21,7 +21,7 @@ class OfficeListElement implements Serializable{
 
 
 
-public class OfficeFloor implements Floor, Serializable {
+public class OfficeFloor implements Floor, Serializable, Cloneable {
     private OfficeListElement head;
     int size;
 
@@ -125,16 +125,72 @@ public class OfficeFloor implements Floor, Serializable {
         return Objects.hash(head, size);
     }
 
-    @Override
-    public Object clone(){
-        Space[] spaces = getSpaces();
-        Space[] newSpaces = new Space[spaces.length];
 
-        for(int i = 0; i < spaces.length; i++)
-            newSpaces[i] = (Space) spaces[i].clone();
 
-        return new DwellingFloor(newSpaces);
+
+    public Object clone() throws CloneNotSupportedException
+    {
+        Floor clon=(Floor) super.clone();
+        for(int i=0;i<size();i++)
+        {
+            clon.setSpace(i,(Space)getSpace(i).clone());
+        }
+        return  clon;
     }
+
+
+
+
+//    @Override
+//    public Floor clone(){
+////        OfficeListElement head = new OfficeListElement(this.head.data.clone());
+////        OfficeFloor second = new OfficeFloor();
+//
+//
+//
+//
+//
+////        public Object clone() throws CloneNotSupportedException
+////        {
+////            Floor clon=(Floor) super.clone();
+////            for(int i=0;i<getCountOfficeFloor();i++)
+////            {
+////                clon.setOfficeFloor(i,(Space)getOfficeFloor(i).clone());
+////            }
+////            return  clon;
+////        }
+//
+//try{
+//        Floor clon=(OfficeFloor) super.clone();
+//    setSpace(0,new Office(1,4));
+//        System.out.println(head.data);
+//    System.out.println(clon.getSpace(0));
+//        for(int i=0;i<size;i++)
+//        {
+//            clon.setSpace(i,getSpace(i).clone());
+//        }
+//        return  clon;
+//    } catch (CloneNotSupportedException e) {
+//        e.printStackTrace();
+//    }
+//    return null;
+//
+//
+//
+//
+//
+//
+//
+//
+//
+////        Space[] spaces = getSpaces();
+////        Space[] newSpaces = new Space[spaces.length];
+////
+////        for(int i = 0; i < spaces.length; i++)
+////            newSpaces[i] = (Space) spaces[i].clone();
+////
+////        return new DwellingFloor(newSpaces);
+//    }
 
     @Override
     public int size(){

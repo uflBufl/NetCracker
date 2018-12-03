@@ -7,7 +7,7 @@ import com.company.exceptions.InvalidSpaceAreaException;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Flat implements Space, Serializable {
+public class Flat implements Space, Serializable, Cloneable {
     private double square;
     private int roomsCount;
     final static private int DEFAULT_ROOMS = 2;
@@ -53,9 +53,9 @@ public class Flat implements Space, Serializable {
     }
 
     @Override
-    public Object clone(){
+    public Space clone(){
         try {
-            return super.clone();
+            return (Flat)super.clone();
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }

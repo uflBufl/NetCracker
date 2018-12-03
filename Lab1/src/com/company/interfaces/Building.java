@@ -3,8 +3,10 @@ package com.company.interfaces;
 import com.company.exceptions.FloorIndexOutOfBoundsException;
 import com.company.exceptions.SpaceIndexOutOfBoundsException;
 
-public interface Building {
-    Object clone();
+import java.io.Serializable;
+
+public interface Building extends Serializable,Cloneable {
+    Building clone() throws CloneNotSupportedException;
 
     int getNumFloors();
 

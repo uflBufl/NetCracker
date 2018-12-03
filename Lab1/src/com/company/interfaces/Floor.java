@@ -2,8 +2,10 @@ package com.company.interfaces;
 
 import com.company.exceptions.SpaceIndexOutOfBoundsException;
 
-public interface Floor {
-    Object clone();
+import java.io.Serializable;
+
+public interface Floor extends Serializable,Cloneable {
+    Object clone() throws CloneNotSupportedException;
 
     int size();
     double squareTotal();

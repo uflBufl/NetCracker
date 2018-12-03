@@ -14,6 +14,7 @@ import java.util.Scanner;
 public class Buildings {
 
     public static void outputBuilding (Building building, OutputStream out) throws IOException {
+//        building.getClass().getName();
         out.write(ByteBuffer.allocate(4).putInt(building.getNumFloors()).array());
         for(Floor floor: building.getFloors()) {
             out.write(ByteBuffer.allocate(4).putInt(floor.size()).array());
@@ -48,19 +49,29 @@ public class Buildings {
         }
         return new OfficeBuilding(floors);
     }
-
+//сначала собрать билдером потом write
     public static void writeBuilding (Building building, Writer out) throws IOException {
-        out.write(building.getNumFloors() + " ");
+        String str = "";
+        StringBuffer strBuffer = new StringBuffer(str);
+
+        strBuffer.append(building.getNumFloors() + " ");
+
+//        out.write(building.getNumFloors() + " ");
 
         for(Floor floor: building.getFloors()) {
-            out.write(floor.size() + " ");
+            strBuffer.append(floor.size() + " ");
+//            out.write(floor.size() + " ");
 
             for(Space space : floor.getSpaces()) {
-                out.write(space.getRooms() + " ");
-                out.write(space.getSquare() + " ");
+//                out.write(space.getRooms() + " ");
+                strBuffer.append(space.getRooms() + " ");
+//                out.write(space.getSquare() + " ");
+                strBuffer.append(space.getSquare() + " ");
             }
         }
-        out.write("\n");
+        strBuffer.append("\n");
+//        out.write("\n");
+        out.write(strBuffer.toString());
     }
 
 
