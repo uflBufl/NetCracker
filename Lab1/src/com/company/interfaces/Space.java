@@ -5,7 +5,7 @@ import com.company.exceptions.InvalidSpaceAreaException;
 
 import java.io.Serializable;
 
-public interface Space extends Serializable,Cloneable {
+public interface Space extends Serializable,Cloneable,Comparable<Space> {
     Object clone() throws CloneNotSupportedException;
 
     int getRooms();

@@ -1,6 +1,10 @@
 package com.company;
 
-import com.company.buildings.*;
+import com.company.buildings.dwelling.DwellingFloor;
+import com.company.buildings.dwelling.Flat;
+import com.company.buildings.office.Office;
+import com.company.buildings.office.OfficeBuilding;
+import com.company.buildings.office.OfficeFloor;
 import com.company.interfaces.Building;
 import com.company.interfaces.Floor;
 import com.company.interfaces.Space;
@@ -156,7 +160,7 @@ public class Main {
             System.out.print(e.getMessage());
         }
 
-
+//клонирование
         Object secondbuilding = new Office(5,3);
         System.out.print("\n"+secondbuilding.toString());
         Object secondbuilding1 = ((Office) secondbuilding).clone();
@@ -182,7 +186,7 @@ public class Main {
         flats[1] = new Flat(8,10);
         DwellingFloor dw = new DwellingFloor(flats);
         System.out.print("\n"+dw.toString());
-            Floor dw1 = new dw.clone();
+            Floor dw1 =(DwellingFloor) dw.clone();
         System.out.print("\n"+dw1.toString());
         System.out.print("\n"+dw.toString());
 
@@ -195,13 +199,16 @@ public class Main {
         offices[1] = new Office(10,20);
         OfficeFloor of = new OfficeFloor(offices);
         System.out.print("\n"+of.toString());
-        Floor of1 = of.clone();
+        Floor of1 = (OfficeFloor)of.clone();
         System.out.print("\n"+of1.toString());
         System.out.print("\n"+of.toString());
 
         of1.getSpace(0).setRooms(66);
         System.out.print("\n"+of.toString());
         System.out.print("\n"+of1.toString());
+
+
+
 
 
 

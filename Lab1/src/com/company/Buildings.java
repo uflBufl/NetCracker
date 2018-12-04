@@ -1,17 +1,57 @@
 package com.company;
 
-import com.company.buildings.Office;
-import com.company.buildings.OfficeBuilding;
-import com.company.buildings.OfficeFloor;
+import com.company.buildings.dwelling.DwellingFactory;
+import com.company.buildings.office.Office;
+import com.company.buildings.office.OfficeBuilding;
+import com.company.buildings.office.OfficeFloor;
 import com.company.interfaces.Building;
+import com.company.interfaces.BuildingFactory;
 import com.company.interfaces.Floor;
 import com.company.interfaces.Space;
 
 import java.io.*;
 import java.nio.ByteBuffer;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class Buildings {
+
+    private static BuildingFactory factory = new DwellingFactory();
+
+    public static void setBuildingFactory(BuildingFactory factory){
+        Buildings.factory = factory;
+    }
+
+    public static Space createSpace(double square) {
+        return factory.createSpace(square);
+    }
+
+    public static Space createSpace(double square, int amountRooms) {
+        return factory.createSpace(amountRooms,square);
+    }
+
+    public static Floor createFloor(int amountSpaces) {
+        return factory.createFloor(amountSpaces);
+    }
+
+    public static Floor createFloor(Space... spaces) {
+        return factory.createFloor(spaces);
+    }
+
+    public static Building createBuilding(int amountFloors, int... amountSpaces) {
+        return factory.createBuilding(amountFloors, amountSpaces);
+    }
+
+    public static Building createBuilding(Floor... floors) {
+        return factory.createBuilding(floors);
+    }
+
+
+
+
+
+
+
 
     public static void outputBuilding (Building building, OutputStream out) throws IOException {
 //        building.getClass().getName();
@@ -42,13 +82,16 @@ public class Buildings {
                 in.read(bytesD);
                 double square = ByteBuffer.wrap(bytesD).getDouble();
 
-                spaces[j] = new Office(square,amountRooms);
+//                spaces[j] = new Office(square,amountRooms);
+                spaces[j] =  createSpace(square,amountRooms);
             }
 
-            floors[i] = new OfficeFloor(spaces);
+            floors[i] = createFloor(spaces);
         }
-        return new OfficeBuilding(floors);
+        return createBuilding(floors);
     }
+
+
 //сначала собрать билдером потом write
     public static void writeBuilding (Building building, Writer out) throws IOException {
         String str = "";
@@ -92,12 +135,12 @@ public class Buildings {
                 st.nextToken();
                 double square = st.nval;
 
-                spaces[j] = new Office(square, amountRooms);
+                spaces[j] = createSpace(square, amountRooms);
             }
 
-            floors[i] = new OfficeFloor(spaces);
+            floors[i] = createFloor(spaces);
         }
-        return new OfficeBuilding(floors);
+        return createBuilding(floors);
     }
 
 
@@ -170,10 +213,37 @@ public class Buildings {
                     }
                     else in.next();
 
-                spaces[j] = new Office(square, amountRooms);
+                spaces[j] = createSpace(square, amountRooms);
             }
-            floors[i] = new OfficeFloor(spaces);
+            floors[i] = createFloor(spaces);
         }
-        return new OfficeBuilding(floors);
+        return createBuilding(floors);
     }
+
+    public static <T extends Comparable<T>> void sortUp(T[] objects) {
+        for (int i = 0; i < objects.length; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < objects.length; j++) {
+                if (objects[j].compareTo(objects[minIndex]) < 0)
+                    minIndex = j;
+            }
+            T swapBuf = objects[i];
+            objects[i] = objects[minIndex];
+            objects[minIndex] = swapBuf;
+        }
+    }
+
+    public static <T > void sortDown(Comparator<T> comparators,T[] objects) {
+        for (int i = 0; i < objects.length; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < objects.length; j++) {
+                if (comparators.compare(objects[j],objects[minIndex]) > 0)
+                    minIndex = j;
+            }
+            T swapBuf = objects[i];
+            objects[i] = objects[minIndex];
+            objects[minIndex] = swapBuf;
+        }
+    }
+
 }

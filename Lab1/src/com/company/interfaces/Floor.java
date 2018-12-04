@@ -4,7 +4,7 @@ import com.company.exceptions.SpaceIndexOutOfBoundsException;
 
 import java.io.Serializable;
 
-public interface Floor extends Serializable,Cloneable {
+public interface Floor extends Serializable,Cloneable,Comparable<Floor>,Iterable<Space> {
     Object clone() throws CloneNotSupportedException;
 
     int size();

@@ -5,7 +5,7 @@ import com.company.exceptions.SpaceIndexOutOfBoundsException;
 
 import java.io.Serializable;
 
-public interface Building extends Serializable,Cloneable {
+public interface Building extends Serializable,Cloneable,Iterable<Floor> {
     Building clone() throws CloneNotSupportedException;
 
     int getNumFloors();
