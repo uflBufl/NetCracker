@@ -33,17 +33,27 @@ public class Flat implements Space, Serializable, Cloneable {
     }
 
     @Override
-    public String toString() {
-        return "Flat (" + roomsCount + ", " + square + ')';
+    public String toString()
+    {
+        StringBuffer stringBuffer=new StringBuffer();
+        stringBuffer.append("Flat(");
+        stringBuffer.append(getRooms()+",");
+        stringBuffer.append(getSquare()+")");
+        return stringBuffer.toString();
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Flat flat = (Flat) o;
-        return Double.compare(flat.square, square) == 0 &&
-                roomsCount == flat.roomsCount;
+    public boolean equals(Object object)
+    {
+        boolean bool=true;
+        // if(!object.toString().contains("Flat"))bool=false;
+        if(object.getClass()!=Flat.class)bool=false;
+        else {
+            Flat temp1=(Flat) object;
+            if(temp1.getSquare()!=getSquare())bool=false;
+            if(temp1.getRooms()!=getRooms())bool=false;
+        }
+        return  bool;
     }
 
     @Override
@@ -53,13 +63,9 @@ public class Flat implements Space, Serializable, Cloneable {
     }
 
     @Override
-    public Space clone(){
-        try {
-            return (Flat)super.clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public Object clone() throws CloneNotSupportedException {
+
+        return  super.clone();
     }
 
     @Override

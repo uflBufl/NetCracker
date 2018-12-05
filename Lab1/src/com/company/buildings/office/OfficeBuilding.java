@@ -113,34 +113,58 @@ public class OfficeBuilding implements Building, Serializable {
     }
 
     @Override
-    public String toString() {
-        return "OfficeBuilding (" + getNumFloors() + ", " + Arrays.toString(getFloors()) + ')';
+    public String toString()
+    {
+        Floor[] temp = getFloors();
+        StringBuffer stringBuffer=new StringBuffer();
+        stringBuffer.append("OfficeBuilding("+size()+",");
+        for(int i=0;i<size();i++){ stringBuffer.append(temp[i].toString());if(i!=size()-1) stringBuffer.append(",");}
+        stringBuffer.append(")");
+        return  stringBuffer.toString();
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        OfficeBuilding that = (OfficeBuilding) o;
-        return size == that.size &&
-                Objects.equals(head, that.head);
+    public boolean equals(Object object)
+    {
+        boolean bool=true;
+        if(object.getClass()!=OfficeBuilding.class)bool=false;
+        else
+        {
+            OfficeBuilding newOfficeBulding=(OfficeBuilding) object;
+            Floor[] floors1 = getFloors();
+            Floor[] floors2 =newOfficeBulding.getFloors();
+            if(newOfficeBulding.getFloors()!=getFloors())bool=false;
+            else
+            {
+                for(int i=0;i<size();i++)
+                {
+                    if (!floors1[i].equals(floors2[i]))bool=false;
+                }
+            }
+        }
+        return bool;
     }
 
     @Override
-    public int hashCode() {
-
-        return Objects.hash(head, size);
+    public int hashCode()
+    {
+        int temp=size();
+        for(int i=0;i<size();i++)
+        {
+            temp^=getFloorByNum(i).hashCode();
+        }
+        return temp;
     }
 
     @Override
-    public Building clone() throws CloneNotSupportedException{
-        Floor[] floors = getFloors();
-        Floor[] newFloors = new Floor[floors.length];
-
-        for(int i = 0; i < floors.length; i++)
-            newFloors[i] = (Floor) floors[i].clone();
-
-        return new OfficeBuilding(newFloors);
+    public Object clone() throws CloneNotSupportedException
+    {
+        Building clon=(Building) super.clone();
+        for(int i=0;i<size();i++)
+        {
+            clon.setFloor(i,(Floor)getFloorByNum(i).clone());
+        }
+        return  clon;
     }
 
     @Override

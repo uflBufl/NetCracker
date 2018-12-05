@@ -49,4 +49,44 @@ public class Hotel extends Dwelling {
         return bestSpace;
     }
 
+    public String toString()
+    {
+        StringBuffer stringBuffer=new StringBuffer();
+        stringBuffer.append("Hotel("+getStars()+","+size()+",");
+        for(int i=0;i<size();i++){ stringBuffer.append(getFloorByNum(i).toString());if(i!=size()-1) stringBuffer.append(",");}
+        stringBuffer.append(")");
+        return  stringBuffer.toString();
+    }
+
+    public boolean equals(Object object)
+    {
+        boolean bool=true;
+        if(object.getClass()!=Hotel.class)bool=false;
+        else
+        {
+            Hotel newHotel=(Hotel) object;
+            Floor[] floors1 = getFloors();
+            Floor[] floors2 =newHotel.getFloors();
+            if(newHotel.size()!=size())bool=false;
+            else
+            {
+                for(int i=0;i<size();i++)
+                {
+                    if (!floors1[i].equals(floors2[i]))bool=false;
+                }
+            }
+        }
+        return bool;
+    }
+
+    public int hashCode()
+    {
+        int temp=size();
+        for(int i=0;i<size();i++)
+        {
+            temp^=getFloorByNum(i).hashCode();
+        }
+        return temp;
+    }
+
 }

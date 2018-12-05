@@ -33,17 +33,28 @@ public class Office implements Space, Serializable, Cloneable,Comparable<Space> 
     }
 
     @Override
-    public String toString() {
-        return "Office (" + roomsCount + ", " + square + ')';
+    public String toString()
+    {
+        StringBuffer stringBuffer=new StringBuffer();
+        stringBuffer.append("Office(");
+        stringBuffer.append(getRooms()+",");
+        stringBuffer.append(getSquare()+")");
+        return stringBuffer.toString();
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Office office = (Office) o;
-        return Double.compare(office.square, square) == 0 &&
-                roomsCount == office.roomsCount;
+    public boolean equals(Object object)
+    {
+        boolean bool=true;
+        //  if(!object.toString().contains("Office"))bool=false;
+        //if(!object.toString().contains("Office"))bool=false;
+        if(object.getClass()!=Office.class)bool=false;
+        else {
+            Office temp1=(Office)object;
+            if(temp1.getSquare()!=getSquare())bool=false;
+            if(temp1.getRooms()!=getRooms())bool=false;
+        }
+        return  bool;
     }
 
     @Override
@@ -53,13 +64,9 @@ public class Office implements Space, Serializable, Cloneable,Comparable<Space> 
     }
 
     @Override
-    public Space clone(){
-        try {
-            return (Office)super.clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public Object clone() throws CloneNotSupportedException {
+
+        return  super.clone();
     }
 
     @Override

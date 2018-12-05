@@ -107,42 +107,61 @@ public class OfficeFloor implements Floor, Serializable, Cloneable {
     }
 
     @Override
-    public String toString() {
-        return "OfficeFloor (" + size() + ", " + Arrays.toString(getSpaces()) + ')';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        OfficeFloor that = (OfficeFloor) o;
-        return size == that.size &&
-                Objects.equals(head, that.head);
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(head, size);
-    }
-
-
-
-
-    public Object clone()
+    public String toString()
     {
+        Space[] offices = getSpaces();
+        StringBuffer stringBuffer=new StringBuffer();
+        stringBuffer.append("OfficeFloor("+size()+",");
+        for(int i=0;i<size();i++){ stringBuffer.append(offices[i].toString());if(i!=size()-1) stringBuffer.append(",");}
+        stringBuffer.append(")");
+        return  stringBuffer.toString();
+    }
 
-        try {
-            Floor clon = (Floor) super.clone();
-            for (int i = 0; i < size(); i++) {
-                clon.setSpace(i, (Space) getSpace(i).clone());
+    @Override
+    public boolean equals(Object object)
+    {
+        boolean bool=true;
+        // if(!object.toString().contains("OfficeFloor"))bool=false;
+        if(object.getClass()!=OfficeFloor.class)bool=false;
+        else
+        {
+            OfficeFloor newOfficeFloor=(OfficeFloor)object;
+            Space[] offices1 = getSpaces();
+            Space[] office2 =newOfficeFloor.getSpaces();
+            if(newOfficeFloor.size()!=size())bool=false;
+            else
+            {
+                for(int i=0;i<size();i++)
+                {
+                    if (!offices1[i].equals(office2[i]))bool=false;
+                }
             }
-            return clon;
         }
-        catch(CloneNotSupportedException e){
-            e.printStackTrace();
+        return bool;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int temp=size();
+        for(int i=0;i<size();i++)
+        {
+            temp^=getSpace(i).hashCode();
         }
-        return null;
+        return temp;
+    }
+
+
+
+    @Override
+    public Object clone() throws CloneNotSupportedException
+    {
+        Floor clon=(Floor) super.clone();
+        for(int i=0;i<size();i++)
+        {
+            clon.setSpace(i,(Space)getSpace(i).clone());
+        }
+        return  clon;
     }
 
 

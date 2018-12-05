@@ -45,35 +45,58 @@ public class Dwelling implements Building, Serializable {
     }
 
     @Override
-    public String toString() {
-        return "Dwelling (" + getFloors().length + ", " + Arrays.toString(getFloors()) + ')';
+    public String toString()
+    {
+        Floor[] temp = getFloors();
+        StringBuffer stringBuffer=new StringBuffer();
+        stringBuffer.append("Dwelling("+size()+",");
+        for(int i=0;i<size();i++){ stringBuffer.append(temp[i].toString());if(i!=size()-1) stringBuffer.append(",");}
+        stringBuffer.append(")");
+        return  stringBuffer.toString();
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Dwelling dwelling = (Dwelling) o;
-        return size == dwelling.size &&
-                Arrays.equals(dwellingFloor, dwelling.dwellingFloor);
+    public boolean equals(Object object)
+    {
+        boolean bool=true;
+        if(object.getClass()!=Dwelling.class)bool=false;
+        else
+        {
+            Dwelling newDwelling=(Dwelling) object;
+            Floor[] floors1 = getFloors();
+            Floor[] floors2 =newDwelling.getFloors();
+            if(newDwelling.getFloors()!=getFloors())bool=false;
+            else
+            {
+                for(int i=0;i<size();i++)
+                {
+                    if (!floors1[i].equals(floors2[i]))bool=false;
+                }
+            }
+        }
+        return bool;
     }
 
     @Override
-    public int hashCode() {
-
-        int result = Objects.hash(size);
-        result = 31 * result + Arrays.hashCode(dwellingFloor);
-        return result;
+    public int hashCode()
+    {
+        int temp=size();
+        for(int i=0;i<size();i++)
+        {
+            temp^=getFloorByNum(i).hashCode();
+        }
+        return temp;
     }
 
     @Override
-    public Building clone()throws CloneNotSupportedException{
-        Floor[] newFloors = new Floor[getFloors().length];
-
-        for(int i = 0; i < getFloors().length; i++)
-            newFloors[i] = (Floor) getFloors()[i].clone();
-
-        return new Dwelling(newFloors);
+    public Object clone() throws CloneNotSupportedException
+    {
+        Building clon=(Building) super.clone();
+        for(int i=0;i<size();i++)
+        {
+            clon.setFloor(i,(Floor)getFloorByNum(i).clone());
+        }
+        return  clon;
     }
 
     @Override

@@ -3,6 +3,8 @@ package com.company.buildings.dwelling.hotel;
 import com.company.buildings.dwelling.DwellingFloor;
 import com.company.interfaces.Space;
 
+import java.util.Objects;
+
 public class HotelFloor extends DwellingFloor{
     int stars;
     final static private int DEFAULT_STARS = 1;
@@ -25,5 +27,46 @@ public class HotelFloor extends DwellingFloor{
         this.stars = stars;
     }
 
+    public String toString()
+    {
+        StringBuffer stringBuffer=new StringBuffer();
+        stringBuffer.append("HotelFloor("+getStars()+","+size()+",");
+        for(int i=0;i<size();i++){ stringBuffer.append(getSpace(i).toString());if(i!=size()-1) stringBuffer.append(",");}
+        stringBuffer.append(")");
+        return  stringBuffer.toString();
+    }
+
+    public boolean equals(Object object)
+    {
+        boolean bool=true;
+        if(object.getClass()!=HotelFloor.class)bool=false;
+        else
+        {
+            HotelFloor newHotelFloor=(HotelFloor) object;
+            Space[] offices1 = getSpaces();
+            Space[] office2 =newHotelFloor.getSpaces();
+            if(newHotelFloor.size()!=size())bool=false;
+            if(newHotelFloor.getStars()!=getStars())bool=false;
+            else
+            {
+                for(int i=0;i<size();i++)
+                {
+                    if (offices1[i].getSquare()!=office2[i].getSquare())bool=false;
+                    if (offices1[i].getRooms()!=office2[i].getRooms())bool=false;
+                }
+            }
+        }
+        return bool;
+    }
+
+    public int hashCode()
+    {
+        int temp=size()^getStars();
+        for(int i=0;i<size();i++)
+        {
+            temp^= getSpace(i).hashCode();
+        }
+        return temp;
+    }
 
 }
