@@ -116,9 +116,9 @@ public class OfficeBuilding implements Building, Serializable {
     public String toString()
     {
         Floor[] temp = getFloors();
-        StringBuffer stringBuffer=new StringBuffer();
+        StringBuffer  stringBuffer=new StringBuffer();
         stringBuffer.append("OfficeBuilding("+size()+",");
-        for(int i=0;i<size();i++){ stringBuffer.append(temp[i].toString());if(i!=size()-1) stringBuffer.append(",");}
+        for(int i=0;i<size;i++){ stringBuffer.append(temp[i].toString());if(i!=size-1) stringBuffer.append(",");}
         stringBuffer.append(")");
         return  stringBuffer.toString();
     }

@@ -1,5 +1,6 @@
 package com.company;
 
+import com.company.buildings.SynchronizedFloor;
 import com.company.buildings.dwelling.DwellingFactory;
 import com.company.buildings.office.Office;
 import com.company.buildings.office.OfficeBuilding;
@@ -244,6 +245,11 @@ public class Buildings {
             objects[i] = objects[minIndex];
             objects[minIndex] = swapBuf;
         }
+    }
+
+    private  static Floor synchronizedFloor(Floor floor)
+    {
+        return new SynchronizedFloor(floor);
     }
 
 }

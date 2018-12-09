@@ -50,7 +50,7 @@ public class Dwelling implements Building, Serializable {
         Floor[] temp = getFloors();
         StringBuffer stringBuffer=new StringBuffer();
         stringBuffer.append("Dwelling("+size()+",");
-        for(int i=0;i<size();i++){ stringBuffer.append(temp[i].toString());if(i!=size()-1) stringBuffer.append(",");}
+        for(int i=0;i<size;i++){ stringBuffer.append(temp[i].toString());if(i!=size-1) stringBuffer.append(",");}
         stringBuffer.append(")");
         return  stringBuffer.toString();
     }

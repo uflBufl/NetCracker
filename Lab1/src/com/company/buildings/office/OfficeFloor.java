@@ -26,7 +26,6 @@ public class OfficeFloor implements Floor, Serializable, Cloneable {
     private OfficeListElement head;
     int size;
 
-
     private OfficeListElement getPreviousElement(OfficeListElement following){
         OfficeListElement sup = head;
         while(sup.next != following){
@@ -217,6 +216,11 @@ public class OfficeFloor implements Floor, Serializable, Cloneable {
 ////
 ////        return new DwellingFloor(newSpaces);
 //    }
+
+    @Override
+    public int GetCountSize(){
+        return size;
+    }
 
     @Override
     public int size(){

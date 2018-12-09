@@ -5,6 +5,9 @@ import com.company.buildings.dwelling.Flat;
 import com.company.buildings.office.Office;
 import com.company.buildings.office.OfficeBuilding;
 import com.company.buildings.office.OfficeFloor;
+import com.company.buildings.threads.SequentalCleaner;
+import com.company.buildings.threads.SequentalRepairer;
+import com.company.buildings.threads.Semaphore;
 import com.company.interfaces.Building;
 import com.company.interfaces.Floor;
 import com.company.interfaces.Space;
@@ -46,7 +49,7 @@ public class Main {
         floors[4] = new OfficeFloor(eOffices);
 
         OfficeBuilding building = new OfficeBuilding(floors);
-
+/*
         System.out.print("Исходное здание:       " + building.toString());
 
 
@@ -159,53 +162,73 @@ public class Main {
         catch (Exception e) {
             System.out.print(e.getMessage());
         }
+        */
+
+        /*
 
 //клонирование
-        Object secondbuilding = new Office(5,3);
-        System.out.print("\n"+secondbuilding.toString());
-        Object secondbuilding1 = ((Office) secondbuilding).clone();
-        System.out.print("\n"+secondbuilding1.toString());
-        ((Office) secondbuilding1).setRooms(66);
-        System.out.print("\n"+secondbuilding.toString());
-        System.out.print("\n"+secondbuilding1.toString());
-        System.out.print("\n"+secondbuilding.toString());
+try {
+    Object secondbuilding = new Office(5, 3);
+    System.out.print("\n" + secondbuilding.toString());
+    Object secondbuilding1 = ((Office) secondbuilding).clone();
+    System.out.print("\n" + secondbuilding1.toString());
+    ((Office) secondbuilding1).setRooms(66);
+    System.out.print("\n" + secondbuilding.toString());
+    System.out.print("\n" + secondbuilding1.toString());
+    System.out.print("\n" + secondbuilding.toString());
 
 
-        Object secondbuildingf = new Flat(5,3);
-        System.out.print("\n"+secondbuildingf.toString());
-        Object secondbuildingf1 = ((Flat) secondbuildingf).clone();
-        System.out.print("\n"+secondbuildingf1.toString());
-        ((Flat) secondbuildingf1).setRooms(66);
-        System.out.print("\n"+secondbuildingf.toString());
-        System.out.print("\n"+secondbuildingf1.toString());
-        System.out.print("\n"+secondbuildingf.toString());
+    Object secondbuildingf = new Flat(5, 3);
+    System.out.print("\n" + secondbuildingf.toString());
+    Object secondbuildingf1 = ((Flat) secondbuildingf).clone();
+    System.out.print("\n" + secondbuildingf1.toString());
+    ((Flat) secondbuildingf1).setRooms(66);
+    System.out.print("\n" + secondbuildingf.toString());
+    System.out.print("\n" + secondbuildingf1.toString());
+    System.out.print("\n" + secondbuildingf.toString());
 
 
-        Space flats[] = new Flat[2];
-        flats[0] = new Flat(4,5);
-        flats[1] = new Flat(8,10);
-        DwellingFloor dw = new DwellingFloor(flats);
-        System.out.print("\n"+dw.toString());
-            Floor dw1 =(DwellingFloor) dw.clone();
-        System.out.print("\n"+dw1.toString());
-        System.out.print("\n"+dw.toString());
+    Space flats[] = new Flat[2];
+    flats[0] = new Flat(4, 5);
+    flats[1] = new Flat(8, 10);
+    DwellingFloor dw = new DwellingFloor(flats);
+    System.out.print("\n" + dw.toString());
+    Floor dw1 = (DwellingFloor) dw.clone();
+    System.out.print("\n" + dw1.toString());
+    System.out.print("\n" + dw.toString());
 
-        dw1.getSpace(0).setRooms(66);
-        System.out.print("\n"+dw.toString());
-        System.out.print("\n"+dw1.toString());
+    dw1.getSpace(0).setRooms(66);
+    System.out.print("\n" + dw.toString());
+    System.out.print("\n" + dw1.toString());
 
-        Space offices[] = new Office[2];
-        offices[0] = new Office(5,10);
-        offices[1] = new Office(10,20);
-        OfficeFloor of = new OfficeFloor(offices);
-        System.out.print("\n"+of.toString());
-        Floor of1 = (OfficeFloor)of.clone();
-        System.out.print("\n"+of1.toString());
-        System.out.print("\n"+of.toString());
+    Space offices[] = new Office[2];
+    offices[0] = new Office(5, 10);
+    offices[1] = new Office(10, 20);
+    OfficeFloor of = new OfficeFloor(offices);
+    System.out.print("\n" + of.toString());
+    Floor of1 = (OfficeFloor) of.clone();
+    System.out.print("\n" + of1.toString());
+    System.out.print("\n" + of.toString());
 
-        of1.getSpace(0).setRooms(66);
-        System.out.print("\n"+of.toString());
-        System.out.print("\n"+of1.toString());
+    of1.getSpace(0).setRooms(66);
+    System.out.print("\n" + of.toString());
+    System.out.print("\n" + of1.toString());
+}
+catch (Exception e){
+
+}
+
+*/
+
+
+
+        Semaphore semaphore = new Semaphore();
+        SequentalCleaner cleaner = new SequentalCleaner(floors[0], semaphore);
+        SequentalRepairer repairer = new SequentalRepairer(floors[0], semaphore);
+
+        new Thread(cleaner).start();
+        new Thread(repairer).start();
+
 
 
 

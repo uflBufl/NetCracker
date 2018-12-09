@@ -123,6 +123,11 @@ public class DwellingFloor implements Floor, Serializable, Cloneable {
 //    }
 
     @Override
+    public int GetCountSize(){
+        return size;
+    }
+
+    @Override
     public int size() {
         //return spaces.length;
         return size;

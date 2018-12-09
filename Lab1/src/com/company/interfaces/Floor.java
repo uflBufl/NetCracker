@@ -7,6 +7,8 @@ import java.io.Serializable;
 public interface Floor extends Serializable,Cloneable,Comparable<Floor>,Iterable<Space> {
     Object clone() throws CloneNotSupportedException;
 
+    int GetCountSize();
+
     int size();
     double squareTotal();
     int roomsCountTotal();
