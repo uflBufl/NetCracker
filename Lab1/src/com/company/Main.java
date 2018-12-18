@@ -49,6 +49,16 @@ public class Main {
         floors[4] = new OfficeFloor(eOffices);
 
         OfficeBuilding building = new OfficeBuilding(floors);
+
+
+//        Form app = new Form();
+//        app.setVisible(true);
+
+
+
+
+
+
 /*
         System.out.print("Исходное здание:       " + building.toString());
 
@@ -222,12 +232,40 @@ catch (Exception e){
 
 
 
-        Semaphore semaphore = new Semaphore();
-        SequentalCleaner cleaner = new SequentalCleaner(floors[0], semaphore);
-        SequentalRepairer repairer = new SequentalRepairer(floors[0], semaphore);
 
-        new Thread(cleaner).start();
-        new Thread(repairer).start();
+
+
+
+
+
+
+
+        //ПОТОКИ!!!!!
+
+//        Semaphore semaphore = new Semaphore();
+//        SequentalCleaner cleaner = new SequentalCleaner(floors[0], semaphore);
+//        SequentalRepairer repairer = new SequentalRepairer(floors[0], semaphore);
+//
+//        new Thread(cleaner).start();
+//        new Thread(repairer).start();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

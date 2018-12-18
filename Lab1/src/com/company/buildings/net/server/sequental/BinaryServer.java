@@ -53,10 +53,10 @@ public  class BinaryServer {
                     break;
             }
             input=input.replace(input.charAt(0),' ');
-            FileWriter fileWriter=new FileWriter("file.txt");
+            FileWriter fileWriter=new FileWriter("file1.txt");
             fileWriter.write(input);
             fileWriter.close();
-            FileReader fileReader=new FileReader("file.txt");
+            FileReader fileReader=new FileReader("file1.txt");
             Building building=Buildings.readBuilding(fileReader);
             fileReader.close();
             out.println( getPrice(building));

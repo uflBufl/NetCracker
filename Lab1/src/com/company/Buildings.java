@@ -1,7 +1,9 @@
 package com.company;
 
 import com.company.buildings.SynchronizedFloor;
+import com.company.buildings.dwelling.Dwelling;
 import com.company.buildings.dwelling.DwellingFactory;
+import com.company.buildings.dwelling.hotel.Hotel;
 import com.company.buildings.office.Office;
 import com.company.buildings.office.OfficeBuilding;
 import com.company.buildings.office.OfficeFloor;
@@ -46,6 +48,74 @@ public class Buildings {
     public static Building createBuilding(Floor... floors) {
         return factory.createBuilding(floors);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //TypeOfBuilding -------------------------------------
+    //default - Office
+    public enum TypeOfBuilding {HOTEL, DWELLING, OFFICE}
+
+    public static TypeOfBuilding getType(Building b){
+        if(b.getClass() == Hotel.class)
+            return TypeOfBuilding.HOTEL;
+        else if(b.getClass() == Dwelling.class)
+            return TypeOfBuilding.DWELLING;
+        else return TypeOfBuilding.OFFICE;
+    }
+
+    public static TypeOfBuilding getType(String type){
+        switch (type){
+            case "Hotel": return TypeOfBuilding.HOTEL;
+            case "Dwelling": return TypeOfBuilding.DWELLING;
+            default: return TypeOfBuilding.OFFICE;
+        }
+    }
+
+    public static TypeOfBuilding getType(int type){
+        if(type >= 0 && type <= 2)
+            return TypeOfBuilding.values()[type];
+        return TypeOfBuilding.OFFICE;
+    }
+
+    public static String typeToString(Building b) {
+        return typeToString(getType(b));
+    }
+
+    public static String typeToString(TypeOfBuilding tob){
+        switch (tob){
+            case HOTEL: return "Hotel";
+            case DWELLING: return "Dwelling";
+            default: return "Office";
+        }
+    }
+
+    public static int typeToInt(Building b){
+        return typeToInt(getType(b));
+    }
+
+    public static int typeToInt(TypeOfBuilding tob){
+        switch (tob){
+            case HOTEL: return 0;
+            case DWELLING: return 1;
+            default: return 2;
+        }
+    }
+    //------------------------------------------------------
+
+
+
+
 
 
 
