@@ -115,9 +115,11 @@ public class OfficeBuilding implements Building, Serializable {
     @Override
     public String toString()
     {
-        Floor[] temp = getFloors();
+        //todo StringBbuilder
+        Floor[] temp = getFloors(); //todo не надо массивы юзать
         StringBuffer  stringBuffer=new StringBuffer();
         stringBuffer.append("OfficeBuilding("+size()+",");
+        //todo итератор
         for(int i=0;i<size;i++){ stringBuffer.append(temp[i].toString());if(i!=size-1) stringBuffer.append(",");}
         stringBuffer.append(")");
         return  stringBuffer.toString();
@@ -130,6 +132,7 @@ public class OfficeBuilding implements Building, Serializable {
         if(object.getClass()!=OfficeBuilding.class)bool=false;
         else
         {
+            //todo нафиг тебе массивы getFloorByNum() не??
             OfficeBuilding newOfficeBulding=(OfficeBuilding) object;
             Floor[] floors1 = getFloors();
             Floor[] floors2 =newOfficeBulding.getFloors();
@@ -149,6 +152,7 @@ public class OfficeBuilding implements Building, Serializable {
     public int hashCode()
     {
         int temp=size();
+        //todo итератор
         for(int i=0;i<size();i++)
         {
             temp^=getFloorByNum(i).hashCode();
@@ -159,6 +163,7 @@ public class OfficeBuilding implements Building, Serializable {
     @Override
     public Object clone() throws CloneNotSupportedException
     {
+        //todo ноды тоже надо клонировать, а то твой клон будет использувать те же ноды, что и исходный объект, а не новые ноды
         Building clon=(Building) super.clone();
         for(int i=0;i<size();i++)
         {
@@ -167,8 +172,10 @@ public class OfficeBuilding implements Building, Serializable {
         return  clon;
     }
 
+
     @Override
     public int getNumFloors(){
+        //todo что за дичь? у тебя число элементов лежит в  size, нахер ты его пересчитываешь, если при добавлении и удалении элементов ты его изменяешь?
         int num = 0;
         if(head == null){
             return num;
@@ -183,6 +190,7 @@ public class OfficeBuilding implements Building, Serializable {
     }
     @Override
     public int size(){
+        //todo вот логичнее было чтоб size() возвращал число этажей, а отдельный метод - общее число квартир
         int numFloors = size;
         int numOffices = 0;
         FloorListElement sup = head;
@@ -196,6 +204,7 @@ public class OfficeBuilding implements Building, Serializable {
         int numFloors = size;
         double square = 0;
         FloorListElement sup = head;
+        //todo итератор
         for(int i = 0;i<numFloors;i++){
             square += sup.data.squareTotal();
         }
@@ -205,6 +214,7 @@ public class OfficeBuilding implements Building, Serializable {
     public int roomsCountTotal(){
         int numFloors = size;
         int numRooms = 0;
+        //todo итератор
         FloorListElement sup = head;
         for(int i = 0;i<numFloors;i++){
             numRooms += sup.data.roomsCountTotal();
@@ -224,7 +234,7 @@ public class OfficeBuilding implements Building, Serializable {
     }
     @Override
     public Floor getFloorByNum(int numFloor){
-        if(numFloor < 0 || numFloor>size){
+        if(numFloor < 0 || numFloor>size){ //todo check в отдельный метод
             throw new FloorIndexOutOfBoundsException();
         }
         FloorListElement sup = getListElement(numFloor);
@@ -232,7 +242,7 @@ public class OfficeBuilding implements Building, Serializable {
     }
     @Override
     public void setFloor(int numFloor, Floor officeFloor){
-        if(numFloor < 0|| numFloor>size){
+        if(numFloor < 0|| numFloor>size){//todo check в отдельный метод
             throw new FloorIndexOutOfBoundsException();
         }
         FloorListElement sup = getListElement(numFloor);
@@ -262,7 +272,7 @@ public class OfficeBuilding implements Building, Serializable {
 
     @Override
     public Space getSpaceByNum(int numOffice){
-        if(numOffice <= 0 || numOffice> size()){
+        if(numOffice <= 0 || numOffice> size()){//todo check в отдельный метод
             throw new SpaceIndexOutOfBoundsException();
         }
 
@@ -275,7 +285,7 @@ public class OfficeBuilding implements Building, Serializable {
 
     @Override
     public void setSpaceByNum(int numOffice, Space office){
-        if(numOffice <= 0 || numOffice> size()){
+        if(numOffice <= 0 || numOffice> size()){//todo check в отдельный метод
             throw new SpaceIndexOutOfBoundsException();
         }
 
@@ -301,7 +311,7 @@ public class OfficeBuilding implements Building, Serializable {
 
     @Override
     public void deleteSpaceByNum(int numOffice){
-        if(numOffice <= 0 || numOffice> size()){
+        if(numOffice <= 0 || numOffice> size()){//todo check в отдельный метод
             throw new SpaceIndexOutOfBoundsException();
         }
 
@@ -317,6 +327,7 @@ public class OfficeBuilding implements Building, Serializable {
         Space office = new Office(0);
         int numFloor = size;
         FloorListElement sup = head;
+        //todo итератор
         for(int i = 0;i<numFloor;i++){
             Space o = sup.data.getBestSpace();
             if(o.getSquare()>maxSquare){
@@ -387,12 +398,16 @@ public class OfficeBuilding implements Building, Serializable {
 
     public class OfficeBuldingIterator implements Iterator<Floor>
     {
+        /*todo жесть! не надо копипастить реализацию итератора из здания.
+НАДО НАПИСАТЬ НОРМАЛЬНЫЙ ИТЕРАТОР, который ходит по нодам и хранит ссылку на текущий нод
+ */
         private int position;
         public OfficeBuldingIterator(int count){this.position=count;}
         public OfficeBuldingIterator(){this.position=0;}
         public boolean hasNext()
         {
-            return position<size();
+            return position<size();//todo и вот тут ты сам попал в свою же ловушку. У тебя здесь метод size() возвращает число квартир, а не этажей...
+
         }
 
         public Floor next()

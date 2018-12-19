@@ -47,9 +47,11 @@ public class Dwelling implements Building, Serializable {
     @Override
     public String toString()
     {
+        //todo StringBbuilder
         Floor[] temp = getFloors();
         StringBuffer stringBuffer=new StringBuffer();
         stringBuffer.append("Dwelling("+size()+",");
+        //todo итератор
         for(int i=0;i<size;i++){ stringBuffer.append(temp[i].toString());if(i!=size-1) stringBuffer.append(",");}
         stringBuffer.append(")");
         return  stringBuffer.toString();
@@ -62,6 +64,7 @@ public class Dwelling implements Building, Serializable {
         if(object.getClass()!=Dwelling.class)bool=false;
         else
         {
+            //todo нафиг тебе массивы getFloorByNum() не??
             Dwelling newDwelling=(Dwelling) object;
             Floor[] floors1 = getFloors();
             Floor[] floors2 =newDwelling.getFloors();
@@ -81,6 +84,7 @@ public class Dwelling implements Building, Serializable {
     public int hashCode()
     {
         int temp=size();
+        //todo итератор
         for(int i=0;i<size();i++)
         {
             temp^=getFloorByNum(i).hashCode();
@@ -106,7 +110,9 @@ public class Dwelling implements Building, Serializable {
     }
     @Override
     public int size() {
+        //todo вот логичнее было чтоб size() возвращал число этажей, а отдельный метод - общее число квартир
         int numFlats = 0;
+        //todo итератор
         for (int i = 0; i < size; i++) {
             numFlats += this.dwellingFloor[i].size();
         }
@@ -115,6 +121,7 @@ public class Dwelling implements Building, Serializable {
     @Override
     public double squareTotal() {
         double square = 0;
+        //todo итератор
         for (int i = 0; i < size; i++) {
             square += this.dwellingFloor[i].squareTotal();
         }
@@ -123,6 +130,7 @@ public class Dwelling implements Building, Serializable {
     @Override
     public int roomsCountTotal() {
         int numRooms = 0;
+        //todo итератор
         for (int i = 0; i < size; i++) {
             numRooms += this.dwellingFloor[i].roomsCountTotal();
         }
@@ -135,14 +143,14 @@ public class Dwelling implements Building, Serializable {
     }
     @Override
     public Floor getFloorByNum(int numFloor) {
-        if (numFloor < 0 || numFloor > size) {
+        if (numFloor < 0 || numFloor > size) { //todo проверку в отдельный метод
             throw new FloorIndexOutOfBoundsException();
         }
         return dwellingFloor[numFloor];
     }
     @Override
     public void setFloor(int numFloor, Floor dwellingFloor) {
-        if (numFloor < 0 || numFloor > size) {
+        if (numFloor < 0 || numFloor > size) {//todo проверку в отдельный метод
             throw new FloorIndexOutOfBoundsException();
         }
         this.dwellingFloor[numFloor] = dwellingFloor;
@@ -167,7 +175,7 @@ public class Dwelling implements Building, Serializable {
 
     @Override
     public Space getSpaceByNum(int numFlat) {
-        if (numFlat <= 0 || numFlat > size()) {
+        if (numFlat <= 0 || numFlat > size()) {//todo проверку в отдельный метод
             throw new SpaceIndexOutOfBoundsException();
         }
 
@@ -180,7 +188,7 @@ public class Dwelling implements Building, Serializable {
 
     @Override
     public void setSpaceByNum(int numFlat, Space flat) {
-        if (numFlat <= 0 || numFlat > size()) {
+        if (numFlat <= 0 || numFlat > size()) {//todo проверку в отдельный метод
             throw new SpaceIndexOutOfBoundsException();
         }
 
@@ -206,7 +214,7 @@ public class Dwelling implements Building, Serializable {
 
     @Override
     public void deleteSpaceByNum(int numFlat) {
-        if (numFlat <= 0 || numFlat > size()) {
+        if (numFlat <= 0 || numFlat > size()) {//todo проверку в отдельный метод
             throw new SpaceIndexOutOfBoundsException();
         }
 
@@ -220,7 +228,7 @@ public class Dwelling implements Building, Serializable {
     public Space getBestSpace() {
         double maxSquare = 0;
         Space flat = new Flat(0);
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < size; i++) { //todo итератор
             Space f = dwellingFloor[i].getBestSpace();
             if (f.getSquare() > maxSquare) {
                 maxSquare = f.getSquare();
@@ -332,7 +340,7 @@ public class Dwelling implements Building, Serializable {
         public DwellingIterator(){this.position=0;}
         public boolean hasNext()
         {
-            return position<size();
+            return position<size(); //todo и вот тут ты сам попал в свою же ловушку. У тебя здесь метод size() возвращает число квартир, а не этажей...
         }
 
         public Floor next()

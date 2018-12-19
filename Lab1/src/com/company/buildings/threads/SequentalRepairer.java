@@ -17,7 +17,7 @@ public class SequentalRepairer extends Thread implements Runnable {
             try {
                 semaphore.beginRepair();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                e.printStackTrace(); //todo ЫЫЫЫ сегодня в лекции расскажу как обрабатывать исключения =))))
             }
 
             System.out.println("Repairing space number " + i +

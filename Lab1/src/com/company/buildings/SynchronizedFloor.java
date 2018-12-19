@@ -6,8 +6,8 @@ import com.company.interfaces.Space;
 import java.util.Iterator;
 
 public class SynchronizedFloor implements Floor {
-    public Floor flat;
-    public int countFlat;
+    public Floor flat; //todo Floor flat?!?!?!?! flat КАРЛ!!!!!! не floor, а flat?!?!?!
+    public int countFlat; //todo нафиг это поле
     public SynchronizedFloor(Floor b) {
         this.countFlat = b.GetCountSize();
         this.flat = b;
@@ -15,7 +15,7 @@ public class SynchronizedFloor implements Floor {
 
     @Override
     public synchronized int GetCountSize() {
-        return countFlat;
+        return countFlat; //todo flat.GetCountSize() по-идее так
     }
 
     @Override
@@ -83,12 +83,13 @@ public class SynchronizedFloor implements Floor {
 
     @Override
     public int compareTo(Floor o) {
-        return 0;
+        return 0; //todo где реализация
     }
 
     @Override
     public Iterator<Space> iterator() {
-        return null;
+        return null; //todo ШТА? floor.iterator() не?!?!
+
     }
 
 }

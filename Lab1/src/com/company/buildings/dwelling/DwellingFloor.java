@@ -32,6 +32,7 @@ public class DwellingFloor implements Floor, Serializable, Cloneable {
     @Override
     public String toString()
     {
+        //todo StringBbuilder
         StringBuffer stringBuffer=new StringBuffer();
         stringBuffer.append("DwellingFloor("+size()+",");
         for(int i=0;i<size();i++){ stringBuffer.append(spaces[i].toString());if(i!=size()-1) stringBuffer.append(",");}
@@ -49,6 +50,7 @@ public class DwellingFloor implements Floor, Serializable, Cloneable {
             DwellingFloor newDwellingFloor=(DwellingFloor) object;
             Space[] offices1 = getSpaces();
             Space[] office2 =newDwellingFloor.getSpaces();
+            //todo нафиг тебе массивы?!?! getSpace(i) не?
             if(newDwellingFloor.size()!=size())bool=false;
             else
             {
@@ -65,7 +67,7 @@ public class DwellingFloor implements Floor, Serializable, Cloneable {
     public int hashCode()
     {
         int temp=size();
-        for(int i=0;i<size();i++)
+        for(int i=0;i<size();i++) //todo итератор
         {
             temp^=getSpace(i).hashCode();
         }
@@ -136,7 +138,7 @@ public class DwellingFloor implements Floor, Serializable, Cloneable {
     @Override
     public double squareTotal() {
         double square = 0;
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < size; i++) { //todo тератор
             square += spaces[i].getSquare();
         }
         return square;
@@ -145,7 +147,7 @@ public class DwellingFloor implements Floor, Serializable, Cloneable {
     @Override
     public int roomsCountTotal() {
         int rooms = 0;
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < size; i++) {//todo тератор
             rooms += spaces[i].getRooms();
         }
         return rooms;
@@ -158,7 +160,7 @@ public class DwellingFloor implements Floor, Serializable, Cloneable {
     }
     @Override
     public Space getSpace(int num) {
-        if(num < 0 || num> size()){
+        if(num < 0 || num> size()){ //todo вынеси проверку в метод
             throw new SpaceIndexOutOfBoundsException();
         }
         return spaces[num];
@@ -166,7 +168,7 @@ public class DwellingFloor implements Floor, Serializable, Cloneable {
 
     @Override
     public void setSpace(int num, Space space) {
-        if(num < 0 || num> size()){
+        if(num < 0 || num> size()){//todo вынеси проверку в метод
             throw new SpaceIndexOutOfBoundsException();
         }
         spaces[num] = space;
@@ -183,13 +185,14 @@ public class DwellingFloor implements Floor, Serializable, Cloneable {
             int newSize = this.size * 2;
 
             Space newSpaces[] = new Space[newSize];
+            // todo System.arraycopy();
             for (int i = 0; i < num; i++) {
                 newSpaces[i] = this.spaces[i];
             }
 
             size++;
             newSpaces[num] = space;
-
+            // todo System.arraycopy();
             for (int i = (num + 1); i < size; i++) {
                 newSpaces[i] = this.spaces[i - 1];
             }
@@ -200,6 +203,7 @@ public class DwellingFloor implements Floor, Serializable, Cloneable {
         else {
             //сделано так, что бы не путать size и номер элемента
             int i = 0;
+            // todo System.arraycopy();
             for(i = size-1;i>=num;i--){
                 spaces[i+1] = spaces[i];
             }
@@ -220,6 +224,7 @@ public class DwellingFloor implements Floor, Serializable, Cloneable {
        //сделано так, что бы не путать size и номер элемента
         size--;
         int i = 0;
+        // todo System.arraycopy();
         for(i = num;i<size;i++){
             spaces[i] = spaces[i+1];
         }
@@ -242,7 +247,7 @@ public class DwellingFloor implements Floor, Serializable, Cloneable {
     @Override
     public Space getBestSpace() {
         Space space = new Flat(0);
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < size; i++) { //todo итератор
             if (this.spaces[i].getSquare() > space.getSquare()) {
                 space = this.spaces[i];
             }
@@ -289,6 +294,7 @@ public class DwellingFloor implements Floor, Serializable, Cloneable {
     }
 
     public int compareTo(Floor o) {
+        //todo return size() - o.size() ?
         int temp=0;
         if(size()>o.size()) temp=1;
         if(size()<o.size()) temp=-1;

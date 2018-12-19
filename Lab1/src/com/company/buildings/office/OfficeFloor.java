@@ -91,6 +91,7 @@ public class OfficeFloor implements Floor, Serializable, Cloneable {
     }
 
     public OfficeFloor(int num){
+        //todo тут не надо ничего делать - пустой конструктор. Для списков не имеет смысла создавать нодовую структуру заранее
         for(int i = 0;i<num;i++){
             OfficeListElement sup = new OfficeListElement();
             sup.data = new Office();
@@ -99,7 +100,7 @@ public class OfficeFloor implements Floor, Serializable, Cloneable {
     }
 
     public OfficeFloor(Space offices[]){
-        for(int i = 0;i<offices.length;i++){
+        for(int i = 0;i<offices.length;i++){ //todo for-each
             OfficeListElement sup = new OfficeListElement(offices[i]);
             addOfficeListElement(i,sup);
         }
@@ -108,9 +109,10 @@ public class OfficeFloor implements Floor, Serializable, Cloneable {
     @Override
     public String toString()
     {
-        Space[] offices = getSpaces();
+        Space[] offices = getSpaces(); //todo нехер баловаться массивами внутри списка
         StringBuffer stringBuffer=new StringBuffer();
         stringBuffer.append("OfficeFloor("+size()+",");
+        //todo юзай итератор, чтоб массив не формировать
         for(int i=0;i<size();i++){ stringBuffer.append(offices[i].toString());if(i!=size()-1) stringBuffer.append(",");}
         stringBuffer.append(")");
         return  stringBuffer.toString();
@@ -124,6 +126,7 @@ public class OfficeFloor implements Floor, Serializable, Cloneable {
         if(object.getClass()!=OfficeFloor.class)bool=false;
         else
         {
+            //todo нафиг тебе массивы?!?! getSpace(i) не?
             OfficeFloor newOfficeFloor=(OfficeFloor)object;
             Space[] offices1 = getSpaces();
             Space[] office2 =newOfficeFloor.getSpaces();
@@ -143,6 +146,7 @@ public class OfficeFloor implements Floor, Serializable, Cloneable {
     public int hashCode()
     {
         int temp=size();
+        //todo итератор
         for(int i=0;i<size();i++)
         {
             temp^=getSpace(i).hashCode();
@@ -155,6 +159,7 @@ public class OfficeFloor implements Floor, Serializable, Cloneable {
     @Override
     public Object clone() throws CloneNotSupportedException
     {
+        //todo ноды тоже надо клонировать, а то твой клон будет использувать те же ноды, что и исходный объект, а не новые ноды
         Floor clon=(Floor) super.clone();
         for(int i=0;i<size();i++)
         {
@@ -224,6 +229,8 @@ public class OfficeFloor implements Floor, Serializable, Cloneable {
 
     @Override
     public int size(){
+        //todo что за дичь? у тебя число элементов лежит в  size, нахер ты его пересчитываешь, если при добавлении и удалении элементов ты его изменяешь?
+        //убери просто GetCountSize из контратка интерфейеса и юзай size
         int num = 0;
         if(head == null){
             return num;
@@ -241,6 +248,7 @@ public class OfficeFloor implements Floor, Serializable, Cloneable {
     @Override
     public double squareTotal(){
         double square = 0;
+        //todo итератор
         if(head != null) {
             OfficeListElement sup = head;
             do {
@@ -255,6 +263,7 @@ public class OfficeFloor implements Floor, Serializable, Cloneable {
     @Override
     public int roomsCountTotal(){
         int rooms = 0;
+        //todo итератор
         if(head != null) {
             OfficeListElement sup = head;
             do {
@@ -286,7 +295,7 @@ public class OfficeFloor implements Floor, Serializable, Cloneable {
     @Override
     public Space getSpace(int num){
 
-        if(num < 0 || num> size){
+        if(num < 0 || num> size){ //todo проверку в отельный метод
             throw new SpaceIndexOutOfBoundsException();
         }
 
@@ -295,7 +304,7 @@ public class OfficeFloor implements Floor, Serializable, Cloneable {
     }
     @Override
     public void setSpace(int num, Space office){
-        if(num < 0 || num> size){
+        if(num < 0 || num> size){//todo проверку в отельный метод
             throw new SpaceIndexOutOfBoundsException();
         }
         //OfficeListElement newOffice = new OfficeListElement(office);
@@ -313,7 +322,7 @@ public class OfficeFloor implements Floor, Serializable, Cloneable {
     }
     @Override
     public void deleteSpace(int num){
-        if(num < 0 || num> size){
+        if(num < 0 || num> size){//todo проверку в отельный метод
             throw new SpaceIndexOutOfBoundsException();
         }
         deleteOfficeListElement(num);
@@ -321,7 +330,7 @@ public class OfficeFloor implements Floor, Serializable, Cloneable {
     @Override
     public Space getBestSpace(){
         Space office = new Office(0);
-
+        //todo итератор
         if(head != null) {
             OfficeListElement sup = head;
             do {
@@ -344,6 +353,9 @@ public class OfficeFloor implements Floor, Serializable, Cloneable {
 
     private class OfficeFloorIterator implements Iterator<Space>
     {
+        /*todo жесть! не надо копипастить реализацию итератора из здания.
+        НАДО НАПИСАТЬ НОРМАЛЬНЫЙ ИТЕРАТОР, который ходит по нодам и хранит ссылку на текущий нод
+         */
         private int position;
         public OfficeFloorIterator(int count){this.position=count;}
         public OfficeFloorIterator(){this.position=0;}
@@ -360,7 +372,7 @@ public class OfficeFloor implements Floor, Serializable, Cloneable {
 
     @Override
     public int compareTo(Floor o) {
-        int temp=0;
+        int temp=0; //todo см тудушку в DwellingFloor
         if(size()>o.size()) temp=1;
         if(size()<o.size()) temp=-1;
         return  temp;
