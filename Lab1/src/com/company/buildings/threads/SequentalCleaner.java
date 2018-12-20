@@ -15,7 +15,7 @@ public class SequentalCleaner  extends Thread implements Runnable {
             try {
                 semaphore.beginClean();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                e.printStackTrace(); //todo ЫЫЫЫ сегодня в лекции расскажу как обрабатывать исключения =))))
             }
 
             System.out.println("Cleaning room number " + i +

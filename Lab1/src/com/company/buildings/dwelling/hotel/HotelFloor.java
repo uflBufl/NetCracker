@@ -27,6 +27,7 @@ public class HotelFloor extends DwellingFloor{
         this.stars = stars;
     }
 
+    //todo используй реализацию из DwellingFloor
     public String toString()
     {
         StringBuffer stringBuffer=new StringBuffer();
@@ -36,6 +37,7 @@ public class HotelFloor extends DwellingFloor{
         return  stringBuffer.toString();
     }
 
+    //todo используй реализацию из DwellingFloor
     public boolean equals(Object object)
     {
         boolean bool=true;
@@ -59,6 +61,7 @@ public class HotelFloor extends DwellingFloor{
         return bool;
     }
 
+    //todo используй реализацию из DwellingFloor
     public int hashCode()
     {
         int temp=size()^getStars();

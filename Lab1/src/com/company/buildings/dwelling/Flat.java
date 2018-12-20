@@ -35,6 +35,7 @@ public class Flat implements Space, Serializable, Cloneable {
     @Override
     public String toString()
     {
+        //todo String.format()
         StringBuffer stringBuffer=new StringBuffer();
         stringBuffer.append("Flat(");
         stringBuffer.append(getRooms()+",");
@@ -45,11 +46,17 @@ public class Flat implements Space, Serializable, Cloneable {
     @Override
     public boolean equals(Object object)
     {
+        //todo equals при передаче ему null должен возвращать false. у тебя будет выброс NullPointerException
         boolean bool=true;
         // if(!object.toString().contains("Flat"))bool=false;
+        /* todo не надо ветвлений и логических переменных надо так:
+         if (Objects.isNull(object)) return false;
+         if (object.getClass()!=Office.class) return false;
+        */
         if(object.getClass()!=Flat.class)bool=false;
         else {
             Flat temp1=(Flat) object;
+            //todo return Double.compare(temp1.square, square) == 0 & temp1.roomsCount == roomsCount ;
             if(temp1.getSquare()!=getSquare())bool=false;
             if(temp1.getRooms()!=getRooms())bool=false;
         }
@@ -96,6 +103,7 @@ public class Flat implements Space, Serializable, Cloneable {
 
     @Override
     public int compareTo(Space o) {
+        // todo return Double.compare(square, o.getSquare()); проще да?
         int temp=0;
         if(getSquare()>o.getSquare()) temp=1;
         if(getSquare()<o.getSquare()) temp=-1;

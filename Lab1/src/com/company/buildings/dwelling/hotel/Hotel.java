@@ -28,7 +28,7 @@ public class Hotel extends Dwelling {
     public Space getBestSpace() {
         Space bestSpace = null;
         float lastCoeff = 0;
-
+        //todo нахер ты в foreach getFloors() засунул? Ты для кого реализовывал паттерн иитератор? Нужно this туда пихать
         for(Floor floor : getFloors()) {
             if(floor.getClass() == HotelFloor.class) {
                 float coeff = ((HotelFloor) floor).getStars() * 0.25f;
@@ -51,6 +51,7 @@ public class Hotel extends Dwelling {
 
     public String toString()
     {
+        //todo используй реализацию из DwellingFloor
         StringBuffer stringBuffer=new StringBuffer();
         stringBuffer.append("Hotel("+getStars()+","+size()+",");
         for(int i=0;i<size();i++){ stringBuffer.append(getFloorByNum(i).toString());if(i!=size()-1) stringBuffer.append(",");}
@@ -60,6 +61,7 @@ public class Hotel extends Dwelling {
 
     public boolean equals(Object object)
     {
+        //todo используй реализацию из DwellingFloor
         boolean bool=true;
         if(object.getClass()!=Hotel.class)bool=false;
         else
@@ -81,6 +83,7 @@ public class Hotel extends Dwelling {
 
     public int hashCode()
     {
+        //todo используй реализацию из DwellingFloor
         int temp=size();
         for(int i=0;i<size();i++)
         {
