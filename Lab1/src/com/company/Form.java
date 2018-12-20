@@ -44,6 +44,7 @@ public class Form extends JFrame {
             }
 
             JFileChooser openedFile = new JFileChooser();
+//            openedFile.setCurrentDirectory(new File("C:\\Users\\Алексей\\Desktop\\NetCracker\\Java\\LAb\\6"));
             openedFile.setCurrentDirectory(new File("C:\\Users\\gamer\\Desktop\\Учёба\\NetCracker\\NetCracker\\NetCracker\\Lab1"));
             int result = openedFile.showDialog(Form.this, "Выберите файл c зданием");
             if (result == JFileChooser.APPROVE_OPTION) {
@@ -111,7 +112,7 @@ public class Form extends JFrame {
                 "Type:" + buildingType.name() + "\n"
                         + "Floors count:" + building.getNumFloors() + "\n"
                         + "Summary area: " + building.squareTotal() + "\n");
-        setInfo(building, 0, 0);
+        setInfo(building, 1, 1);
         Floor[] floors = building.getFloors();
 
         for (int i = 0; i < floors.length; i++) {
